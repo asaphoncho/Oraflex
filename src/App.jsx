@@ -223,9 +223,18 @@ export default function Flexcubetest(){
                             )}
                             {functionSelect === "transactionFunction" &&(
                                 <div className="transaction-selection">
-                                    <div><button onClick={()=> setTransactionSelect("transfer")}>Funds Transfer</button></div>
-                                    <div><button onClick={()=> setTransactionSelect("deposit")}>Deposit</button></div>
-                                    <div><button onClick={()=> setTransactionSelect("withdrawal")}>Withdrawal</button></div>
+                                    <div onClick={()=> setTransactionSelect("transfer")} className="transaction-card">
+                                        <span>Funds Transfer</span>
+                                        <i class="fa-solid fa-money-bill-transfer"></i>
+                                    </div>
+                                    <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
+                                        <span>Deposit</span>
+                                        <i class="fa-solid fa-cash-register"></i>
+                                    </div>
+                                    <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                        <span>Withdrawal</span>
+                                        <i class="fa-solid fa-sack-dollar"></i>
+                                    </div>
                                 </div>
                             )}
                             {functionSelect === "maintenanceFunction" &&(
