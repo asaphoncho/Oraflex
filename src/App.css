@@ -1,0 +1,393 @@
+@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200..800&family=Chewy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BioRhyme:wght@200..800&family=Chewy&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+body{
+  padding: 0;
+  margin: 0;
+  background-color: #f5f5f5;
+  overflow-x: hidden;
+  font-family: "Poppins", serif;
+}
+.login-page{
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+}
+.login-div{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding-bottom: 4rem;
+  background-color: #f5f5f5;
+  box-shadow: 0 16px 32px #3c3b3b49;
+  row-gap: 2rem;
+  border-bottom-right-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+.login-logo{
+  width: 290px;
+  font-family: "BioRhyme", serif;
+  font-size: 2rem;
+  letter-spacing: -2.4px;
+  padding: 1rem 6.5rem 1rem 6.5rem;
+  background-color: #D8494B;
+  color: #f5f5f5;
+}
+.login-input-div{
+  width: fit-content;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  row-gap: 1rem;
+}
+.input-class{
+  color: #3c3b3b;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 8px;
+  font-family: 'poppins';
+  font-weight: 600;
+  color: #3c3b3b;
+}
+.input-class input{
+  width: 360px;
+  height: 32px;
+  padding: 0 0.5rem 0 0.5rem;
+  font-weight: 500;
+}
+.login-btn{
+  width: fit-content;
+  background-color: #D8494B;
+  color: #f5f5f5;
+  font-weight: 600;
+  padding: 0.625rem 1rem 0.625rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+.posting-page{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+.side-bar{
+  width: 20%;
+  height: 100%;
+  background-color: #D8494B;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+.function-div{
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  width: 85%;
+  height: auto;
+  justify-content: start;
+  align-items: center;
+  color: #f5f5f5;
+  padding: 0.75rem 1.25rem 0.75rem 1.25rem;
+  background-color: #D8494B;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+.function-div:hover{
+  background-color: #993335;
+}
+.function-div2{
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  width: 85%;
+  height: auto;
+  justify-content: start;
+  align-items: center;
+  color: #D8494B;
+  padding: 0.75rem 1.25rem 0.75rem 1.25rem;
+  background-color: #f5f5f5;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+  border: solid 1px #D8494B;
+}
+
+.big-modal{
+  width: 100%;
+  height: 140vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.504);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1.5;
+}
+.modal{
+  width: 20%;
+  height: 20rem;
+  z-index: 2;
+  top: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  box-shadow: 0px 4px 10px #3c3b3b;
+  border-radius: 0.25rem;
+}
+.main-modal{
+  width: 100%;
+  height: 85vh;
+  top: 3.5rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  background-color: white;
+  position: absolute;
+  box-shadow: 0px 4px 10px #3c3b3b;
+  border-radius: 0.25rem;
+}
+.transaction-page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+.page-header{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: solid 0.5px gray;
+  margin-top: 0.5rem;
+}
+.oracle-logo{
+  width: fit-content;
+  height: auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 1rem 2rem 1rem 2rem;
+  color: #ffffff;
+  background-color: grey;
+}
+.user-details{
+  height: auto;
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1.5rem;
+}
+.name-holder{
+  width: fit-content;
+  height: auto;
+  padding: 1.25rem 2rem 1.25rem 2rem;
+  background-color: #d7d7d7;
+  font-size: 1rem;
+}
+.transaction-area-holder{
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: fit-content;
+  padding: 1rem 0 1rem 0;
+  background-color: white;
+  box-shadow: 0px 0px 12px rgba(84, 84, 84, 0.729);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.transaction-area{
+  width: 100%;
+  height: 34rem;
+  overflow-y: scroll;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  row-gap: 2rem;
+}
+.transaction-area2{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 2rem;
+}
+.transaction-div{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.transactions-holder{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: 0.5rem;
+  row-gap: 1rem;
+  margin-top: 0.5rem;
+}
+.transaction-title{
+  width: 100%;
+  background-color: #d0d9ea;
+  color: white;
+  padding: 0.5rem 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+.transaction{
+  width: 20%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 6px gray;
+  border: none;
+}
+.transaction-heading{
+  width: 100%;
+  height: auto;
+  background-color: rgba(117, 151, 197, 0.682);
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 0 0.5rem 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.transaction-body{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0.5rem 0 1rem 0.5rem;
+  row-gap: 1rem;
+}
+.view-btn{
+  border-radius: 10rem;
+  padding: 0.25rem;
+  border: solid grey 0.5px;
+  cursor: pointer;
+}
+.log-btn{
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #07634f00;
+}
+.right-side{
+  width: 90%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+.header{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1.5rem 0 1.5rem 0;
+  box-shadow: 0 4px 24px #3c3b3b46;
+}
+.header-logo{
+  width: fit-content;
+  height: auto;
+  background-color: #f5f5f5;
+  color: #D8494B;
+  font-size: 2.5rem;
+  font-family: "BioRhyme", serif;
+  font-weight: 700;
+  letter-spacing: -2.4px;
+  padding: 0 1rem 0 1rem;
+}
+.header-right-div{
+  display: flex;
+  width: auto;
+  height: auto;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1.75rem;
+  padding: 0 2.5rem 0 2.5rem;
+}
+.header-r-div-elements{
+  color: #496AD8;
+  column-gap: 0.5rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.right-main-div{
+  width: 90%;
+  height: 70rem;
+  display: flex;
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.transaction-selection{
+  display: flex;
+  width: 100%;
+  height: 150rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: auto;
+  padding: 4rem;
+  background-color: blue;
+}
+

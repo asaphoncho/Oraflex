@@ -1,0 +1,168 @@
+body{
+  padding: 0;
+  margin: 0;
+  background-color: #ffa556;
+}
+.game-area{
+  width: 100%;
+  height: auto;
+  padding: 2rem 0 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  row-gap: 1.5rem;
+}
+.player-profile{
+  position: absolute;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  column-gap: 3rem;
+  padding: 2rem 3rem 2rem 3rem;
+  border-radius: 1.5rem;
+  background-color: whitesmoke;
+  color: black;
+  width: 90%;
+  height: 80vh;
+  margin-top: 3rem;
+  font-size: 2rem;
+  z-index: 2;
+}
+.darkscarf{
+  width: 100vh;
+  height: 100vh;
+  background-color: rgba(20, 19, 19, 0.859);
+  display: block;
+  z-index: 1;
+}
+.player-input{
+  width: 90%;
+  height: auto;
+  font-size: 1rem;
+  color: black;
+  background-color: rgba(255, 255, 255, 0);
+  outline: none;
+  border: none;
+}
+.input-area{
+  width: 100%;
+  display: none;
+  height: auto;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  row-gap: 0.5rem;
+}
+.input-container{
+  width: 40%;
+  height: auto;
+  padding: 1rem 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px black solid;
+  border-radius: 1.5rem;
+}
+.random-letter-container{
+  width: 7rem;
+  height: 7rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: solid black 2px;
+  border-radius: 4rem;
+  font-size: 3rem;
+}
+@keyframes in{
+  from{
+    margin-top: 7rem;
+  }
+  to{
+    margin-top: 0;
+  }
+}
+.profiles-container{
+  width: 100%;
+  height: auto;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  column-gap: 2rem;
+}
+.profile-thumbnail{
+  width: 20%;
+  height: auto;
+  background-color: white;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 0.5rem;
+}
+.profile-thumbnail img{
+  width: 100%;
+  height: 18rem;
+  border-radius: 1rem;
+}
+.test-area{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.big-picture{
+  width: 40%;
+  height: 100%;
+}
+.small-pic-container{
+  width: 10%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.small-pic{
+  width: 100%;
+  height: 33.3%;
+  cursor: pointer;
+}
+.main-test-area{
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+.top-side{
+  width: 100%;
+  height: 20rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+}
+.small-pic-container2{
+  width: 100%;
+  height: 106.55px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+}
+.small-pic2{
+  width: 10%;
+  height: 100%;
+  cursor: pointer;
+}
