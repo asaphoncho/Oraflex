@@ -185,231 +185,128 @@ export default function Flexcubetest(){
             </div>  
         </>)
     }
-    else if(isLoggedin){
-        if(!searchResult.isSupervisor){
-            if(!transactionSelect){
-                return(<>
-                <div className="posting-page">
-                    <div className="side-bar">
-                        <div className={functionSelect === "transactionFunction"? "function-div2": "function-div"} onClick={()=>setFunctionSelect("transactionFunction")}><i class="fa-solid fa-circle-dollar-to-slot"></i><span>Transaction functions</span></div>
-                        <div onClick={()=>setFunctionSelect("maintenanceFunction")} className={functionSelect === "maintenanceFunction"? "function-div2": "function-div"}><i class="fa-solid fa-id-card"></i><span>Maintenances</span></div>
-                        <div className={functionSelect === "historyFunction"? "function-div2": "function-div"} onClick={()=>setFunctionSelect("historyFunction")}><i class="fa-solid fa-table-list"></i><span>Transaction History</span></div>
+    else if(isLoggedin){      
+        return(<>
+            <div className="posting-page">
+                <div className="side-bar">
+                    <div className={functionSelect === "transactionFunction"? "function-div2": "function-div"} onClick={()=>setFunctionSelect("transactionFunction")}><i class="fa-solid fa-circle-dollar-to-slot"></i><span>Transaction functions</span></div>
+                    <div onClick={()=>setFunctionSelect("maintenanceFunction")} className={functionSelect === "maintenanceFunction"? "function-div2": "function-div"}><i class="fa-solid fa-id-card"></i><span>Maintenances</span></div>
+                    <div className={functionSelect === "historyFunction"? "function-div2": "function-div"} onClick={()=>setFunctionSelect("historyFunction")}><i class="fa-solid fa-table-list"></i><span>Transaction History</span></div>
+                </div>
+                <div className="right-side">
+                    <div className="header">
+                        <div className="header-logo">
+                            ORAFLEX <span style={{fontSize:'1rem', fontWeight:'600', letterSpacing: '0px'}}>by Ifeoluwa</span>
+                        </div>
+                        <div className="header-right-div">
+                            <div className="header-r-div-elements">
+                                <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-house"></i>
+                                <span>Branch {searchResult.branch}</span>
+                            </div>
+                            <div className="header-r-div-elements">
+                                <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-user"></i>
+                                <span>{searchResult.name}</span>
+                            </div>
+                            <div className="header-r-div-elements" style={{fontWeight:'400', cursor:'pointer'}} onClick={()=>{setIsLoggedin(false); setSignUp(false); setFunctionSelect("")}}>
+                                <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-arrow-right-from-bracket"></i>
+                                <span>Log out</span>  
+                            </div>
+                        </div>
                     </div>
-                    <div className="right-side">
-                        <div className="header">
-                            <div className="header-logo">
-                                ORAFLEX <span style={{fontSize:'1rem', fontWeight:'600', letterSpacing: '0px'}}>by Ifeoluwa</span>
+                    <div className="right-main-div">
+                        {!functionSelect && (
+                            <div>
+                                Please select a function
                             </div>
-                            <div className="header-right-div">
-                                <div className="header-r-div-elements">
-                                    <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-house"></i>
-                                    <span>Branch {searchResult.branch}</span>
-                                </div>
-                                <div className="header-r-div-elements">
-                                    <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-user"></i>
-                                    <span>{searchResult.name}</span>
-                                </div>
-                                <div className="header-r-div-elements" style={{fontWeight:'400', cursor:'pointer'}} onClick={()=>{setIsLoggedin(false); setSignUp(false); setFunctionSelect("")}}>
-                                    <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-arrow-right-from-bracket"></i>
-                                    <span>Log out</span>  
-                                </div>
+                        )}
+                        {functionSelect === "transactionFunction" &&(
+                            <div className="transaction-selection">
+                                {!searchResult.isSupervisor &&(
+                                    <>
+                                        {!transactionSelect &&(<>
+                                            <div onClick={()=> setTransactionSelect("transfer")} className="transaction-card">
+                                            <span>Funds Transfer</span>
+                                            <i class="fa-solid fa-money-bill-transfer"></i>
+                                        </div>
+                                        <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
+                                            <span>Deposit</span>
+                                            <i class="fa-solid fa-cash-register"></i>
+                                        </div>
+                                        <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                            <span>Withdrawal</span>
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                        </div> 
+                                        </>)}
+                                        {transactionSelect == "transfer" &&(
+                                            <div>
+                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
+                                                <label htmlFor="account-number1">From account</label>
+                                                <input type="number" name="account-number1" ref={acc1} />
+                                                <label htmlFor="account-number2">To account</label>
+                                                <input type="number" name="account-number2" ref={acc2} />
+                                                <label htmlFor="transfer-amount">Amount</label>
+                                                <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                <button onClick={()=> {handleTransaction(acc1.current.value, transferAmount.current.value, acc2.current.value); setTransactionSelect(null)}}>Process Transfer</button>
+                                                <div><button onClick={()=>{setIsLoggedin(false); setSignUp(false)}}>Log out</button></div>
+                                            </div>)}
+                                        {transactionSelect == "deposit" &&(<>
+                                            <div>
+                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
+                                                <label htmlFor="account-number1">Account Number</label>
+                                                <input type="number" name="account-number1" ref={acc1} />
+                                                <label htmlFor="transfer-amount">Amount</label>
+                                                <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                            </div>
+                                        </>)}
+                                        {transactionSelect == "withdrawal" &&(<>
+                                            <div>
+                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
+                                                <label htmlFor="account-number1">Account Number</label>
+                                                <input type="number" name="account-number1" ref={acc1} />
+                                                <label htmlFor="transfer-amount">Amount</label>
+                                                <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                            </div>
+                                        </>)}
+                                    </>
+                                )}
+                                {searchResult.isSupervisor &&(
+                                    <>
+                                        <div onClick={()=> setTransactionSelect("transfer")} className="transaction-card">
+                                            <span>Authorize transactions</span>
+                                            <i class="fa-solid fa-money-bill-transfer"></i>
+                                        </div>
+                                        <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
+                                            <span>Vault Operations</span>
+                                            <i class="fa-solid fa-cash-register"></i>
+                                        </div>
+                                        <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                            <span>Branch Operations</span>
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                        </div><div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                            <span>Branch Operations</span>
+                                            <i class="fa-solid fa-sack-dollar"></i>
+                                        </div>
+                                    </>
+                                )}
                             </div>
-                        </div>
-                        <div className="right-main-div">
-                            {!functionSelect && (
-                                <div>
-                                    Please select a function
-                                </div>
-                            )}
-                            {functionSelect === "transactionFunction" &&(
-                                <div className="transaction-selection">
-                                    <div onClick={()=> setTransactionSelect("transfer")} className="transaction-card">
-                                        <span>Funds Transfer</span>
-                                        <i class="fa-solid fa-money-bill-transfer"></i>
-                                    </div>
-                                    <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
-                                        <span>Deposit</span>
-                                        <i class="fa-solid fa-cash-register"></i>
-                                    </div>
-                                    <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
-                                        <span>Withdrawal</span>
-                                        <i class="fa-solid fa-sack-dollar"></i>
-                                    </div>
-                                </div>
-                            )}
-                            {functionSelect === "maintenanceFunction" &&(
-                                <div>
-                                    Maintenance function yet to be added
-                                </div>
-                            )}
-                            {functionSelect === "historyFunction" &&(
-                                <div>
-                                    History function yet to be added
-                                </div>
-                            )}
-                        </div>
+                        )}
+                        {functionSelect === "maintenanceFunction" &&(
+                            <div>
+                                Maintenance function yet to be added
+                            </div>
+                        )}
+                        {functionSelect === "historyFunction" &&(
+                            <div>
+                                History function yet to be added
+                            </div>
+                        )}
                     </div>
                 </div>
-                    
-                </>)
-            }
-            else{
-                if(transactionSelect == "transfer"){
-                    return(<>
-                        <div><span style={searchResult.isSupervisor ? {color: 'purple'}: null}>Welcome {searchResult.isSupervisor ? 'Admin' : null} {searchResult.name}</span></div>
-                        <div>
-                            <label htmlFor="account-number1">From account</label>
-                            <input type="number" name="account-number1" ref={acc1} />
-                            <label htmlFor="account-number2">To account</label>
-                            <input type="number" name="account-number2" ref={acc2} />
-                            <label htmlFor="transfer-amount">Amount</label>
-                            <input type="number" name="transfer-amount" ref={transferAmount} />
-                            <button onClick={()=> {handleTransaction(acc1.current.value, transferAmount.current.value, acc2.current.value); setTransactionSelect(null)}}>Process Transfer</button>
-                            <div><button onClick={()=>{setIsLoggedin(false); setSignUp(false)}}>Log out</button></div>
-                        </div>
-                    </>)
-                }
-                else if(transactionSelect == "deposit"){
-                    return(<>
-                        <div><span style={searchResult.isSupervisor ? {color: 'purple'}: null}>Welcome {searchResult.isSupervisor ? 'Admin' : null} {searchResult.name}</span></div>
-                        <div>
-                            <label htmlFor="account-number1">Account Number</label>
-                            <input type="number" name="account-number1" ref={acc1} />
-                            <label htmlFor="transfer-amount">Amount</label>
-                            <input type="number" name="transfer-amount" ref={transferAmount} />
-                            <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
-                            <div><button onClick={()=>{setIsLoggedin(false); setSignUp(false)}}>Log out</button></div>
-                        </div>
-                    </>)
-                }
-                else if(transactionSelect == "withdrawal"){
-                    return(<>
-                        <div><span style={searchResult.isSupervisor ? {color: 'purple'}: null}>Welcome {searchResult.isSupervisor ? 'Admin' : null} {searchResult.name}</span></div>
-                        <div>
-                            <label htmlFor="account-number1">Account Number</label>
-                            <input type="number" name="account-number1" ref={acc1} />
-                            <label htmlFor="transfer-amount">Amount</label>
-                            <input type="number" name="transfer-amount" ref={transferAmount} />
-                            <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
-                            <div><button onClick={()=>{setIsLoggedin(false); setSignUp(false)}}>Log out</button></div>
-                        </div>
-                    </>)
-                }
-            }
-        }
-        else{
-            return(<>
-                {isModalOpen && activeTransaction && activeTransaction.transactionType && (
-                            <>
-                                {activeTransaction.transactionType === "transfer" && (
-                                        <Modal onClose={()=> setIsModalOpen(false)} onConfirm={()=>{fundTransfer(activeTransaction.debitAccount, activeTransaction.creditAccount, activeTransaction.amount); setIsModalOpen(false)}} transaction={activeTransaction}></Modal>)
-                                }
-                                {activeTransaction.transactionType === "deposit" && (
-                                        <Modal onClose={ ()=> setIsModalOpen(false)} onConfirm={()=>{handleDeposit(activeTransaction.creditAccount, activeTransaction.amount); setIsModalOpen(false)}} transaction={activeTransaction}></Modal>
-                                )}
-                                {activeTransaction.transactionType === "withdrawal" && (
-                                        <Modal onClose={ ()=> setIsModalOpen(false)} onConfirm={()=>{handleWithdrawal(activeTransaction.debitAccount, activeTransaction.amount); setIsModalOpen(false)}} transaction={activeTransaction}></Modal>
-                                )}
-                            </> 
-                )}
-                <div className="transaction-page">
-                    <div className="page-header">
-                        <div className="oracle-logo">
-                            ORACLE
-                        </div>
-                        <div className="user-details">
-                            <div><button className="log-btn" onClick={()=>{setIsLoggedin(false); setSignUp(false); setTransactionSelect()}}>Log out</button></div>
-                            <div className="">
-                                <i style={{color: '#07634f'}} class="fa-solid fa-house"></i>
-                                DEFAULTENTITY
-                            </div>
-                            <div>
-                                <i style={{color: '#07634f'}} class="fa-solid fa-house"></i>
-                                BRANCH {searchResult.branch}
-                            </div>
-                            <div className="name-holder">
-                                {searchResult.name.toUpperCase()}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="transaction-area-holder">
-                        <div className="transaction-area">
-                            <div className="transaction-area2">{transferList.map((transaction, index) => 
-                                { if(index === 0){
-                                    return(<div key={index} className="transaction-div">
-                                        <div className="transaction-title">Funds Transfer</div>
-                                        <div className="transactions-holder">
-                                            {transaction.transferTransactions.map((t,i) => (
-                                                <div className="transaction" key={i}>
-                                                    <div className="transaction-heading">Transfer #{i + 1}</div>
-                                                    <div className="transaction-body">
-                                                        <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.debitAccount}</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Teller Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Supervisor ID:<span style={{color:'black'}}>HOP</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Supervisor Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                        <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
-                                                    </div> 
-                                                </div>   
-                                            ))}
-                                        </div>
-                                    </div>)
-                                }
-                                if(index === 1){
-                                    return(
-                                        <div key={index} className="transaction-div">
-                                            <div className="transaction-title">Cash Deposit</div>
-                                            <div className="transactions-holder">
-                                                {transaction.depositTransactions.map((t,i) => (
-                                                    <div className="transaction" key={i}>
-                                                        <div className="transaction-heading">Deposit #{i + 1}</div>
-                                                        <div className="transaction-body">
-                                                            <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.creditAccount}</span></span></div>
-                                                            <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
-                                                            <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
-                                                            <div><span style={{color:'gray'}}>Teller Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                            <div><span style={{color:'gray'}}>Supervisor ID:<span style={{color:'black'}}>HOP</span></span></div>
-                                                            <div><span style={{color:'gray'}}>Supervisor Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                            <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
-                                                        </div>
-                                                    </div>   
-                                                ))}
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                                if(index === 2){
-                                    return(
-                                        <div key={index} className="transaction-div">
-                                            <div className="transaction-title">Cash Withdrawal</div>
-                                            <div className="transactions-holder">
-                                            {transaction.withdrawalTransactions.map((t,i) => (
-                                                <div className="transaction" key={i}>
-                                                    <div className="transaction-heading">Withdrawal #{i + 1}</div>
-                                                    <div className="transaction-body">
-                                                        <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.debitAccount}</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Teller Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Supervisor ID:<span style={{color:'black'}}>HOP</span></span></div>
-                                                        <div><span style={{color:'gray'}}>Supervisor Remarks:<span style={{color:'black'}}>No Comments</span></span></div>
-                                                        <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
-                                                    </div> 
-                                                </div>   
-                                            ))}
-                                            </div>
-                                        </div>
-                                    )
-                                }  
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>  
-            </>)
-        }
+            </div>
+                
+        </>)
     }
     else if(signUp){
         return(<>

@@ -330,7 +330,9 @@ body{
   flex-direction: row;
   justify-content: space-between;
   padding: 1.5rem 0 1.5rem 0;
-  box-shadow: 0 4px 24px #3c3b3b46;
+  box-shadow: 0 4px 24px #3c3b3ba7;
+  background-color: #f5f5f5;
+  border: solid 1px black;
 }
 .header-logo{
   width: fit-content;
@@ -368,6 +370,7 @@ body{
   flex-direction: column;
   justify-content: start;
   align-items: start;
+  background-color: #f5f5f5;
 }
 .right-main-div{
   width: 100%;
@@ -386,14 +389,14 @@ body{
   justify-content: start;
   background-color: #f5f5f5;
   flex-wrap: wrap;
-  row-gap: 1.5rem;
+  row-gap: 1rem;
   column-gap: 6rem;
-  padding: 2rem 4.95rem 0rem 4.95rem;
+  padding: 1.5rem 4.95rem 0rem 4.95rem;
   overflow-y: scroll;
 }
 .transaction-card{
-  width: 13rem;
-  height: 14rem;
+  width: 12rem;
+  height: 13rem;
   background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -403,7 +406,7 @@ body{
   box-shadow: 0 16px 32px #3c3b3b49;
   border-radius: 1.5rem;
   row-gap: 2.5rem;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   color: #D8494B;
   font-weight: 600;
   cursor: pointer;
