@@ -11,6 +11,14 @@ export default function Flexcubetest(){
     const [transactionSelect, setTransactionSelect] = useState()
     const [activeTransaction, setActiveTransaction] = useState()
     const [functionSelect, setFunctionSelect] = useState()
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [isLoggedin, setIsLoggedin] = useState(false)
+    const [searchResult, setSearchResult] = useState()
+    const [invalidLogin, setInvalidLogin] = useState(false)
+    const [signUp, setSignUp] = useState(false)
+    const [activeCustomer, setActiveCustomer] = useState()
+    const [errorMessage, setErrorMessage] = useState("Please enter an account number")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
@@ -33,13 +41,6 @@ export default function Flexcubetest(){
         console.log(transactions)
     }, [transactions])
     useEffect(()=> {console.log(activeTransaction); console.log(transactionSelect)}, [activeTransaction])
-
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [isLoggedin, setIsLoggedin] = useState(false)
-    const [searchResult, setSearchResult] = useState()
-    const [invalidLogin, setInvalidLogin] = useState(false)
-    const [signUp, setSignUp] = useState(false)
     
     const userCreate = useRef()
     const passCreate = useRef()
@@ -48,7 +49,6 @@ export default function Flexcubetest(){
     const acc1 = useRef()
     const acc2 = useRef()
     const transferAmount = useRef()
-
     const handleSearch = (event) => {
         const searchedUser = users.find(user => user.name == event.target.value)
         setSearchResult(searchedUser)
@@ -128,7 +128,22 @@ export default function Flexcubetest(){
         if(acc2){acc2.current.value = ""}
         transferAmount.current.value = ""
     }
-
+    function handleType(event){
+        if(event.target.value.length === 10){
+            const foundAccount = customers.find(c => c.accountNumber === Number(event.target.value))
+            if(foundAccount){
+                setActiveCustomer(foundAccount)
+            }
+            else{
+                setErrorMessage("account not found")
+            }
+        }
+        else if(event.target.value.length < 10 && event.target.value.length != 0){
+            setErrorMessage("please enter up to 10 digits")
+            setActiveCustomer()
+        }
+        else if(event.target.value.length > 10){setActiveCustomer(); setErrorMessage("Maximum number of characters is 10")}
+    }
     const handleLogin = () =>{
         const searchedUser = users.find(user => user.userName == username)
         console.log(users)
@@ -138,6 +153,8 @@ export default function Flexcubetest(){
             setPassword("")
             setPassword("")
             setInvalidLogin(false)
+            setCustomers((prevCustomer) => prevCustomer.map((customer, index)=> {return {...customer, signature: index + 1}}))
+            console.log(customers)
         }
         else{
             setInvalidLogin(true)
@@ -260,13 +277,27 @@ export default function Flexcubetest(){
                                             </div>
                                         </>)}
                                         {transactionSelect == "withdrawal" &&(<>
-                                            <div>
-                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
-                                                <label htmlFor="account-number1">Account Number</label>
-                                                <input type="number" name="account-number1" ref={acc1} />
-                                                <label htmlFor="transfer-amount">Amount</label>
-                                                <input type="number" name="transfer-amount" ref={transferAmount} />
-                                                <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                            <div className="withdrawal-page">
+                                                <div className="withdrawal-header">
+                                                    <span>Cash Withdrawal</span>
+                                                </div>
+                                                <div className="withdrawal-details">
+                                                    <div className="transaction-input-part">
+                                                        <label htmlFor="account-number1">Account Number</label>
+                                                        <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
+                                                        <div>{activeCustomer ? <span>{activeCustomer.firstName} {activeCustomer.lastName}</span> : errorMessage}</div>
+                                                        <label htmlFor="transfer-amount">Amount</label>
+                                                        <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                        <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                                    </div>
+                                                    <div className="customer-details">
+                                                        <div className="image-div"></div>
+                                                        <div className="">
+                                                            <span>Name:</span>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </>)}
                                     </>
