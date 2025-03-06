@@ -153,7 +153,7 @@ export default function Flexcubetest(){
             setPassword("")
             setPassword("")
             setInvalidLogin(false)
-            setCustomers((prevCustomer) => prevCustomer.map((customer, index)=> {return {...customer, signature: index + 1}}))
+            setCustomers((prevCustomer) => prevCustomer.map((customer, index)=> {return {...customer, image: `./assets/img${index + 1}.png`, signature: `./assets/signature${index + 1}.png`}}))
             console.log(customers)
         }
         else{
@@ -277,15 +277,22 @@ export default function Flexcubetest(){
                                             </div>
                                         </>)}
                                         {transactionSelect == "withdrawal" &&(<>
-                                            <div className="withdrawal-page">
+                                            <div className="withdrawal-page">                                               
                                                 <div className="withdrawal-header">
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'6rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
                                                     <span>Cash Withdrawal</span>
                                                 </div>
                                                 <div className="withdrawal-details">
                                                     <div className="transaction-input-part">
+                                                        <span>Transaction Details</span>
                                                         <label htmlFor="account-number1">Account Number</label>
                                                         <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
-                                                        <div>{activeCustomer ? <span>{activeCustomer.firstName} {activeCustomer.lastName}</span> : errorMessage}</div>
+                                                        <div>{activeCustomer ? 
+                                                            <div>
+                                                                <span>{activeCustomer.firstName} {activeCustomer.middleName} {activeCustomer.lastName}</span>
+                                                                <img style={{width: '5rem', height: '5rem', borderRadius:'4rem'}} src={activeCustomer.image} alt="" />
+                                                                <img src={activeCustomer.signature} alt="" />
+                                                            </div> : errorMessage}</div>
                                                         <label htmlFor="transfer-amount">Amount</label>
                                                         <input type="number" name="transfer-amount" ref={transferAmount} />
                                                         <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
