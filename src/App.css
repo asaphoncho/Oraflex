@@ -280,36 +280,6 @@ body{
   font-size: 1rem;
   font-weight: bold;
 }
-.transaction{
-  width: 20%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 6px gray;
-  border: none;
-}
-.transaction-heading{
-  width: 100%;
-  height: auto;
-  background-color: rgba(117, 151, 197, 0.682);
-  color: white;
-  font-weight: bold;
-  padding: 0.5rem 0 0.5rem 0;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-.transaction-body{
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  padding: 0.5rem 0 1rem 0.5rem;
-  row-gap: 1rem;
-}
 .view-btn{
   border-radius: 10rem;
   padding: 0.25rem;
@@ -430,9 +400,137 @@ body{
 .withdrawal-header{
   width: 100%;
   height: auto;
-  padding: 2rem;
+  padding: 1rem;
   font-size: 2.5rem;
   font-weight: 600;
   color: #D8494B;
   position: relative;
+}
+.withdrawal-details{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  padding-top: 1.5rem;
+  column-gap: 5rem;
+}
+.transaction-input-part{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  row-gap: 0.5rem;
+  padding-left: 3rem;
+}
+.input-class{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 0.25rem;
+  color: #6c6c6c;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.input-class input{
+  border: 1px solid #A4A4A4;
+  background-color: #f5f5f5;
+  width: 20rem;
+}
+.save-button{
+  width: fit-content;
+  background-color: #D8494B;
+  padding: 0.75rem 1.5rem 0.75rem 1.5rem;
+  color: #f5f5f5;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.customer-details{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  justify-content: start;
+  align-items: start;
+}
+.details{
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  row-gap: 0.175rem;
+  font-weight: 500;
+  color: #3c3b3b;
+}
+.detail-labels{
+  color: grey;
+  font-weight: 400;
+}
+.transactions-list{
+  max-width: 90%;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  overflow-y: scroll;
+}
+.auth-transfer{
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding-left: 3rem;
+  row-gap: 1rem;
+}
+.transactions-div{
+ width: 90%;
+ height: auto;
+ overflow-x: scroll;
+ display: flex;
+ flex-direction: row;
+ justify-content: start;
+ align-items: start;
+ column-gap: 1.5rem;
+}
+.transaction{
+  min-width: 18rem;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 6px gray;
+  row-gap: 1rem;
+  border: none;
+}
+.transaction-heading{
+  width: 100%;
+  height: auto;
+  background-color: rgba(117, 151, 197, 0.682);
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 0 0.5rem 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.transaction-body{
+  width: auto;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding-left: 1.5rem;
+  row-gap: 0.75rem;
+  font-size: 1rem;
 }

@@ -19,6 +19,8 @@ export default function Flexcubetest(){
     const [signUp, setSignUp] = useState(false)
     const [activeCustomer, setActiveCustomer] = useState()
     const [errorMessage, setErrorMessage] = useState("Please enter an account number")
+    const [activeCustomer2, setActiveCustomer2] = useState()
+    const [errorMessage2, setErrorMessage2] = useState("Please enter an account number")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
@@ -49,6 +51,10 @@ export default function Flexcubetest(){
     const acc1 = useRef()
     const acc2 = useRef()
     const transferAmount = useRef()
+    const narrative = useRef()
+    const depositorName = useRef()
+
+
     const handleSearch = (event) => {
         const searchedUser = users.find(user => user.name == event.target.value)
         setSearchResult(searchedUser)
@@ -125,8 +131,10 @@ export default function Flexcubetest(){
         }
         
         acc1.current.value = ""
-        if(acc2){acc2.current.value = ""}
         transferAmount.current.value = ""
+        if(acc2){acc2.current.value = ""}
+        setActiveCustomer()
+        setActiveCustomer2()
     }
     function handleType(event){
         if(event.target.value.length === 10){
@@ -143,6 +151,24 @@ export default function Flexcubetest(){
             setActiveCustomer()
         }
         else if(event.target.value.length > 10){setActiveCustomer(); setErrorMessage("Maximum number of characters is 10")}
+        else if(event.target.value.length === 0){setActiveCustomer(); setErrorMessage("Please enter an account number")}
+    }
+    function handleType2(event){
+        if(event.target.value.length === 10){
+            const foundAccount = customers.find(c => c.accountNumber === Number(event.target.value))
+            if(foundAccount){
+                setActiveCustomer2(foundAccount)
+            }
+            else{
+                setErrorMessage2("account not found")
+            }
+        }
+        else if(event.target.value.length < 10 && event.target.value.length != 0){
+            setErrorMessage2("please enter up to 10 digits")
+            setActiveCustomer2()
+        }
+        else if(event.target.value.length > 10){setActiveCustomer2(); setErrorMessage2("Maximum number of characters is 10")}
+        else if(event.target.value.length === 0){setActiveCustomer2(); setErrorMessage2("Please enter an account number")}
     }
     const handleLogin = () =>{
         const searchedUser = users.find(user => user.userName == username)
@@ -160,6 +186,17 @@ export default function Flexcubetest(){
             setInvalidLogin(true)
         }
 
+    }
+    function handleLogout(){
+        setIsLoggedin(false)
+        setSignUp(false)
+        acc1.current.value = ""
+        acc2.current.value = ""
+        transferAmount.current.value = ""
+        setActiveCustomer()
+        setActiveCustomer2()
+        setTransactionSelect()
+        setFunctionSelect()
     }
     
     const handleCreateUser = (a, b, c, d, callback) => {
@@ -224,7 +261,7 @@ export default function Flexcubetest(){
                                 <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-user"></i>
                                 <span>{searchResult.name}</span>
                             </div>
-                            <div className="header-r-div-elements" style={{fontWeight:'400', cursor:'pointer'}} onClick={()=>{setIsLoggedin(false); setSignUp(false); setFunctionSelect("")}}>
+                            <div className="header-r-div-elements" style={{fontWeight:'400', cursor:'pointer'}} onClick={handleLogout}>
                                 <i style={{backgroundColor:'#496AD8', padding: '0.35rem', borderRadius: '2.5rem', color:'#f5f5f5', fontSize:'0.75rem'}} class="fa-solid fa-arrow-right-from-bracket"></i>
                                 <span>Log out</span>  
                             </div>
@@ -255,53 +292,168 @@ export default function Flexcubetest(){
                                         </div> 
                                         </>)}
                                         {transactionSelect == "transfer" &&(
-                                            <div>
-                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
-                                                <label htmlFor="account-number1">From account</label>
-                                                <input type="number" name="account-number1" ref={acc1} />
-                                                <label htmlFor="account-number2">To account</label>
-                                                <input type="number" name="account-number2" ref={acc2} />
-                                                <label htmlFor="transfer-amount">Amount</label>
-                                                <input type="number" name="transfer-amount" ref={transferAmount} />
-                                                <button onClick={()=> {handleTransaction(acc1.current.value, transferAmount.current.value, acc2.current.value); setTransactionSelect(null)}}>Process Transfer</button>
-                                                <div><button onClick={()=>{setIsLoggedin(false); setSignUp(false)}}>Log out</button></div>
-                                            </div>)}
+                                            <div className="withdrawal-page">                                               
+                                            <div className="withdrawal-header">
+                                                <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                <span>Funds transfer</span>
+                                            </div>
+                                            <div className="withdrawal-details">
+                                                <div className="transaction-input-part">
+                                                    <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Transaction Details</span>
+                                                    <div className="input-class">
+                                                        <label htmlFor="account-number1">Debit Number</label>
+                                                        <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
+                                                        <div style={{fontSize:'0.75rem', fontWeight: 400}}>{activeCustomer ? 
+                                                            <div>
+                                                                <span>{activeCustomer.firstName} {activeCustomer.middleName} {activeCustomer.lastName}</span>
+                                                            </div> : errorMessage}
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-class">
+                                                        <label htmlFor="account-number2">Credit Number</label>
+                                                        <input onChange={handleType2} type="number" name="account-number2" ref={acc2} />
+                                                        <div style={{fontSize:'0.75rem', fontWeight: 400}}>{activeCustomer2 ? 
+                                                            <div>
+                                                                <span>{activeCustomer2.firstName} {activeCustomer2.middleName} {activeCustomer2.lastName}</span>
+                                                            </div> : errorMessage2}
+                                                        </div>
+                                                    </div>
+                                                    <div className="input-class">
+                                                        <label htmlFor="transfer-amount">Amount</label>
+                                                        <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                    </div>
+                                                    <div className="input-class">
+                                                        <label htmlFor="transfer-narrative">Narrative</label>
+                                                        <input type="text" name="transfer-narrative"/>
+                                                    </div>
+                                                    <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value, acc2.current.value)}>Save</button>
+                                                    
+                                                </div>
+                                                <div className="customer-details">
+                                                    <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Customer Details:</span>
+                                                    <img style={{border:'solid 4px rgb(82, 82, 82)',width: '6rem', height: '6rem', borderRadius:'5rem'}} src={activeCustomer ? activeCustomer.image: './assets/defaultpic.png'} alt="" />
+                                                    <div className="details">
+                                                        <span className="detail-labels">Name:</span>
+                                                        <span>{activeCustomer? `${activeCustomer.firstName} ${activeCustomer.middleName} ${activeCustomer.lastName}`: 'nil'}</span>
+                                                    </div>
+                                                    <div className="details">
+                                                        <span className="detail-labels">Account Balance:</span>
+                                                        <span>{activeCustomer ? activeCustomer.accountBalance : 'nil'}</span>
+                                                    </div>
+                                                    <div className="details">
+                                                        <span className="detail-labels">Phone number:</span>
+                                                        <span>{activeCustomer ? activeCustomer.phoneNumber : 'nil'}</span>
+                                                    </div>
+                                                    <div className="details">
+                                                        <span className="detail-labels">Signature:</span>
+                                                        {activeCustomer && (<img src={activeCustomer.signature} alt="" />)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>)}
                                         {transactionSelect == "deposit" &&(<>
-                                            <div>
-                                                <button onClick={()=>setTransactionSelect(null)}>back</button>
-                                                <label htmlFor="account-number1">Account Number</label>
-                                                <input type="number" name="account-number1" ref={acc1} />
-                                                <label htmlFor="transfer-amount">Amount</label>
-                                                <input type="number" name="transfer-amount" ref={transferAmount} />
-                                                <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                            <div className="withdrawal-page">                                               
+                                                <div className="withdrawal-header">
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <span>Cash deposit</span>
+                                                </div>
+                                                <div className="withdrawal-details">
+                                                    <div className="transaction-input-part">
+                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Transaction Details</span>
+                                                        <div className="input-class">
+                                                            <label htmlFor="account-number1">Account Number</label>
+                                                            <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
+                                                            <div style={{fontSize:'0.75rem', fontWeight: 400}}>{activeCustomer ? 
+                                                                <div>
+                                                                    <span>{activeCustomer.firstName} {activeCustomer.middleName} {activeCustomer.lastName}</span>
+                                                                </div> : errorMessage}
+                                                            </div>
+                                                        </div>
+                                                        <div className="input-class">
+                                                            <label htmlFor="transfer-amount">Amount</label>
+                                                            <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                        </div>
+                                                        <div className="input-class">
+                                                            <label htmlFor="transfer-narrative">Depositor Name</label>
+                                                            <input type="text" name="transfer-narrative" ref={transferAmount} />
+                                                        </div>
+                                                        <div className="input-class">
+                                                            <label htmlFor="transfer-narrative">Narrative</label>
+                                                            <input type="text" name="transfer-narrative" ref={transferAmount} />
+                                                        </div>
+                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
+                                                        
+                                                    </div>
+                                                    <div className="customer-details">
+                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Customer Details:</span>
+                                                        <img style={{border:'solid 4px rgb(82, 82, 82)',width: '6rem', height: '6rem', borderRadius:'5rem'}} src={activeCustomer ? activeCustomer.image: './assets/defaultpic.png'} alt="" />
+                                                        <div className="details">
+                                                            <span className="detail-labels">Name:</span>
+                                                            <span>{activeCustomer? `${activeCustomer.firstName} ${activeCustomer.middleName} ${activeCustomer.lastName}`: 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Account Balance:</span>
+                                                            <span>{activeCustomer ? activeCustomer.accountBalance : 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Phone number:</span>
+                                                            <span>{activeCustomer ? activeCustomer.phoneNumber : 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Signature:</span>
+                                                            {activeCustomer && (<img src={activeCustomer.signature} alt="" />)}
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </>)}
                                         {transactionSelect == "withdrawal" &&(<>
                                             <div className="withdrawal-page">                                               
                                                 <div className="withdrawal-header">
-                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'6rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
                                                     <span>Cash Withdrawal</span>
                                                 </div>
                                                 <div className="withdrawal-details">
                                                     <div className="transaction-input-part">
-                                                        <span>Transaction Details</span>
-                                                        <label htmlFor="account-number1">Account Number</label>
-                                                        <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
-                                                        <div>{activeCustomer ? 
-                                                            <div>
-                                                                <span>{activeCustomer.firstName} {activeCustomer.middleName} {activeCustomer.lastName}</span>
-                                                                <img style={{width: '5rem', height: '5rem', borderRadius:'4rem'}} src={activeCustomer.image} alt="" />
-                                                                <img src={activeCustomer.signature} alt="" />
-                                                            </div> : errorMessage}</div>
-                                                        <label htmlFor="transfer-amount">Amount</label>
-                                                        <input type="number" name="transfer-amount" ref={transferAmount} />
-                                                        <button onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Process Transaction</button>
+                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Transaction Details</span>
+                                                        <div className="input-class">
+                                                            <label htmlFor="account-number1">Account Number</label>
+                                                            <input onChange={handleType} type="number" name="account-number1" ref={acc1} />
+                                                            <div style={{fontSize:'0.75rem', fontWeight: 400}}>{activeCustomer ? 
+                                                                <div>
+                                                                    <span>{activeCustomer.firstName} {activeCustomer.middleName} {activeCustomer.lastName}</span>
+                                                                </div> : errorMessage}
+                                                            </div>
+                                                        </div>
+                                                        <div className="input-class">
+                                                            <label htmlFor="transfer-amount">Amount</label>
+                                                            <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                        </div>
+                                                        <div className="input-class">
+                                                            <label htmlFor="transfer-narrative">Narrative</label>
+                                                            <input type="text" name="transfer-narrative" ref={transferAmount} />
+                                                        </div>
+                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
+                                                        
                                                     </div>
                                                     <div className="customer-details">
-                                                        <div className="image-div"></div>
-                                                        <div className="">
-                                                            <span>Name:</span>
-
+                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Customer Details:</span>
+                                                        <img style={{border:'solid 4px rgb(82, 82, 82)',width: '6rem', height: '6rem', borderRadius:'5rem'}} src={activeCustomer ? activeCustomer.image: './assets/defaultpic.png'} alt="" />
+                                                        <div className="details">
+                                                            <span className="detail-labels">Name:</span>
+                                                            <span>{activeCustomer? `${activeCustomer.firstName} ${activeCustomer.middleName} ${activeCustomer.lastName}`: 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Account Balance:</span>
+                                                            <span>{activeCustomer ? activeCustomer.accountBalance : 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Phone number:</span>
+                                                            <span>{activeCustomer ? activeCustomer.phoneNumber : 'nil'}</span>
+                                                        </div>
+                                                        <div className="details">
+                                                            <span className="detail-labels">Signature:</span>
+                                                            {activeCustomer && (<img src={activeCustomer.signature} alt="" />)}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -311,21 +463,74 @@ export default function Flexcubetest(){
                                 )}
                                 {searchResult.isSupervisor &&(
                                     <>
-                                        <div onClick={()=> setTransactionSelect("transfer")} className="transaction-card">
-                                            <span>Authorize transactions</span>
-                                            <i class="fa-solid fa-money-bill-transfer"></i>
-                                        </div>
-                                        <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
-                                            <span>Vault Operations</span>
-                                            <i class="fa-solid fa-cash-register"></i>
-                                        </div>
-                                        <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
-                                            <span>Branch Operations</span>
-                                            <i class="fa-solid fa-sack-dollar"></i>
-                                        </div><div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
-                                            <span>Branch Operations</span>
-                                            <i class="fa-solid fa-sack-dollar"></i>
-                                        </div>
+                                        {!transactionSelect && (<>
+                                            <div onClick={()=> setTransactionSelect("authorizeTransactions")} className="transaction-card">
+                                                <span>Authorize transactions</span>
+                                                <i class="fa-solid fa-money-bill-transfer"></i>
+                                            </div>
+                                            <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
+                                                <span>Vault Operations</span>
+                                                <i class="fa-solid fa-cash-register"></i>
+                                            </div>
+                                            <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                                <span>Branch Operations</span>
+                                                <i class="fa-solid fa-sack-dollar"></i>
+                                            </div>
+                                            <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                                <span>Branch Operations</span>
+                                                <i class="fa-solid fa-sack-dollar"></i>
+                                            </div>
+                                        </>
+                                        )}
+                                        {transactionSelect === "authorizeTransactions" &&(<>
+                                            <div className="withdrawal-page">                                              
+                                                <div className="withdrawal-header">
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <span>Authorize transactions</span>
+                                                </div>
+                                                <div className="transactions-list">
+                                                    {transferList.map((transaction, index)=>{
+                                                        if(index === 0){
+                                                            return(<div className="auth-transfer">
+                                                                    <div>Funds Transfer</div>
+                                                                    <div className="transactions-div">
+                                                                        {transaction.transferTransactions.map((t, i) => (
+                                                                            <div className="transaction" key={i}>
+                                                                                <div className="transaction-heading">Transfer #{i + 1}</div>
+                                                                                <div className="transaction-body">
+                                                                                    <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.debitAccount}</span></span></div>
+                                                                                    <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
+                                                                                    <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
+                                                                                    <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
+                                                                                </div> 
+                                                                            </div> 
+                                                                        ))}
+                                                                    </div>
+                                                            </div>)
+                                                        }
+                                                        if(index === 1){
+                                                            return(<div className="auth-transfer">
+                                                                    <div>Cash Deposit</div>
+                                                                    <div className="transactions-div">
+                                                                        {transaction.depositTransactions.map((t, i) => (
+                                                                            <div className="transaction" key={i}>
+                                                                                <div className="transaction-heading">Deposit #{i + 1}</div>
+                                                                                <div className="transaction-body">
+                                                                                    <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.creditAccount}</span></span></div>
+                                                                                    <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
+                                                                                    <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
+                                                                                    <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
+                                                                                </div> 
+                                                                            </div> 
+                                                                        ))}
+                                                                    </div>
+                                                            </div>)
+                                                        }
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </>)}
+                                        
                                     </>
                                 )}
                             </div>
