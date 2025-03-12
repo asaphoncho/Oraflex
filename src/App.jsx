@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from "react";
 import customerbase from './customerbase.json'
 import Modal from "./Modal";
+import AuthorizationPage from "./authorizationPage";
 import './App.css'
 
 export default function Flexcubetest(){
@@ -22,6 +23,7 @@ export default function Flexcubetest(){
     const [activeCustomer2, setActiveCustomer2] = useState()
     const [errorMessage2, setErrorMessage2] = useState("Please enter an account number")
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [confirmedTransaction, setConfirmedTransaction] = useState(false)
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
         {userName: "Uchedike", name:"Uchechukwu Glory Ukadike", role: "Assistant Head of Operations", isSupervisor: true, branch: 271, password: "Uchedike1"},
@@ -294,7 +296,7 @@ export default function Flexcubetest(){
                                         {transactionSelect == "transfer" &&(
                                             <div className="withdrawal-page">                                               
                                             <div className="withdrawal-header">
-                                                <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setTransactionSelect(null); setActiveCustomer(); if(confirmedTransaction){setConfirmedTransaction(false)}}}><i class="fa-solid fa-arrow-left"></i></button>
                                                 <span>Funds transfer</span>
                                             </div>
                                             <div className="withdrawal-details">
@@ -354,7 +356,7 @@ export default function Flexcubetest(){
                                         {transactionSelect == "deposit" &&(<>
                                             <div className="withdrawal-page">                                               
                                                 <div className="withdrawal-header">
-                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setTransactionSelect(null); setActiveCustomer(); if(confirmedTransaction){setConfirmedTransaction(false)}}}><i class="fa-solid fa-arrow-left"></i></button>
                                                     <span>Cash deposit</span>
                                                 </div>
                                                 <div className="withdrawal-details">
@@ -384,6 +386,63 @@ export default function Flexcubetest(){
                                                         <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
                                                         
                                                     </div>
+                                                    <div className="teller-part">
+                                                        <div className="denom-details">
+                                                            <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Denomination</span>
+                                                            <table className="denom-table">
+                                                                <tr>
+                                                                    <th>Denomination</th>
+                                                                    <th>Units</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1000</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>1000</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>500</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>200</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>100</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>50</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>20</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td><input type="number" /></td>
+                                                                    <td>0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Total</td>
+                                                                    <td></td>
+                                                                    <td>1000</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                     <div className="customer-details">
                                                         <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Customer Details:</span>
                                                         <img style={{border:'solid 4px rgb(82, 82, 82)',width: '6rem', height: '6rem', borderRadius:'5rem'}} src={activeCustomer ? activeCustomer.image: './assets/defaultpic.png'} alt="" />
@@ -410,7 +469,7 @@ export default function Flexcubetest(){
                                         {transactionSelect == "withdrawal" &&(<>
                                             <div className="withdrawal-page">                                               
                                                 <div className="withdrawal-header">
-                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setTransactionSelect(null); setActiveCustomer()}}><i class="fa-solid fa-arrow-left"></i></button>
                                                     <span>Cash Withdrawal</span>
                                                 </div>
                                                 <div className="withdrawal-details">
@@ -457,12 +516,77 @@ export default function Flexcubetest(){
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div className="teller-part">
+                                                    <div>
+                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Denomination</span>
+                                                        <table>
+                                                            <tr>
+                                                                <th>Denomination</th>
+                                                                <th>Units</th>
+                                                                <th>Total</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>1000</td>
+                                                                <td>5</td>
+                                                                <td>1000</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>500</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>200</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>100</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>50</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>20</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>10</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5</td>
+                                                                <td>0</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </>)}
                                     </>
                                 )}
                                 {searchResult.isSupervisor &&(
                                     <>
+                                        {isModalOpen && activeTransaction && activeTransaction.transactionType && (
+                                                    <>
+                                                        {activeTransaction.transactionType === "transfer" && (
+                                                                <Modal onClose1={()=> setIsModalOpen(false)} transaction={activeTransaction} handleTransactionConfirm={()=> {setConfirmedTransaction(true); setIsModalOpen(false)}}></Modal>)
+                                                        }
+                                                        {activeTransaction.transactionType === "deposit" && (
+                                                                <Modal onClose1={()=> setIsModalOpen(false)} transaction={activeTransaction} handleTransactionConfirm={()=> {setConfirmedTransaction(true); setIsModalOpen(false)}}></Modal>
+                                                        )}
+                                                        {activeTransaction.transactionType === "withdrawal" && (
+                                                                <Modal onClose1={()=> setIsModalOpen(false)} transaction={activeTransaction} handleTransactionConfirm={()=> {setConfirmedTransaction(true); setIsModalOpen(false)}}></Modal>
+                                                        )}
+                                                    </> 
+                                        )}
                                         {!transactionSelect && (<>
                                             <div onClick={()=> setTransactionSelect("authorizeTransactions")} className="transaction-card">
                                                 <span>Authorize transactions</span>
@@ -485,49 +609,100 @@ export default function Flexcubetest(){
                                         {transactionSelect === "authorizeTransactions" &&(<>
                                             <div className="withdrawal-page">                                              
                                                 <div className="withdrawal-header">
-                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>setTransactionSelect(null)}><i class="fa-solid fa-arrow-left"></i></button>
+                                                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setTransactionSelect(null); setActiveCustomer(); if(confirmedTransaction){setConfirmedTransaction(false)}}}><i class="fa-solid fa-arrow-left"></i></button>
                                                     <span>Authorize transactions</span>
                                                 </div>
-                                                <div className="transactions-list">
-                                                    {transferList.map((transaction, index)=>{
-                                                        if(index === 0){
-                                                            return(<div className="auth-transfer">
-                                                                    <div>Funds Transfer</div>
-                                                                    <div className="transactions-div">
-                                                                        {transaction.transferTransactions.map((t, i) => (
-                                                                            <div className="transaction" key={i}>
-                                                                                <div className="transaction-heading">Transfer #{i + 1}</div>
-                                                                                <div className="transaction-body">
-                                                                                    <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.debitAccount}</span></span></div>
-                                                                                    <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
-                                                                                    <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
-                                                                                    <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
-                                                                                </div> 
+                                                {!confirmedTransaction && (
+                                                <div className="transactions-list" style={{marginTop:'1rem'}}>
+                                                {transferList.map((transaction, index)=>{
+                                                    if(index === 0){
+                                                        return(<div className="auth-transfer">
+                                                                <div className="transaction-category">Funds Transfer</div>
+                                                                <div className="transactions-div">
+                                                                    {transaction.transferTransactions.map((t, i) => (
+                                                                        <div className="transaction" key={i}>
+                                                                            <div className="transaction-heading">Transfer #{i + 1}</div>
+                                                                            <div className="transaction-body">
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Account number:</span>
+                                                                                    <span style={{color: 'black', fontSize:'1rem'}}>{t.debitAccount}</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Transaction amount</span>
+                                                                                    <span style={{color: 'black'}}>*******</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Teller ID:</span>
+                                                                                    <span style={{color:'black'}}>ADIGUNDA</span>
+                                                                                </div>
+                                                                                <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
                                                                             </div> 
-                                                                        ))}
-                                                                    </div>
-                                                            </div>)
-                                                        }
-                                                        if(index === 1){
-                                                            return(<div className="auth-transfer">
-                                                                    <div>Cash Deposit</div>
-                                                                    <div className="transactions-div">
-                                                                        {transaction.depositTransactions.map((t, i) => (
-                                                                            <div className="transaction" key={i}>
-                                                                                <div className="transaction-heading">Deposit #{i + 1}</div>
-                                                                                <div className="transaction-body">
-                                                                                    <div><span style={{color:'gray'}}>Account number: <span style={{color: 'black'}}>{t.creditAccount}</span></span></div>
-                                                                                    <div><span style={{color:'gray'}}>Transaction amount <span style={{color: 'black'}}>*****</span></span></div>
-                                                                                    <div><span style={{color:'gray'}}>Teller ID:<span style={{color:'black'}}>ADIGUNDA</span></span></div>
-                                                                                    <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
-                                                                                </div> 
+                                                                        </div> 
+                                                                    ))}
+                                                                </div>
+                                                        </div>)
+                                                    }
+                                                    if(index === 1){
+                                                        return(<div className="auth-transfer">
+                                                                <div style={{fontSize:'1.5rem', fontWeight:'600', color:'grey'}}>Cash Deposit</div>
+                                                                <div className="transactions-div">
+                                                                    {transaction.depositTransactions.map((t, i) => (
+                                                                        <div className="transaction" key={i}>
+                                                                            <div className="transaction-heading" style={{backgroundColor:'purple'}}>Deposit #{i + 1}</div>
+                                                                            <div className="transaction-body">
+                                                                            <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Account number:</span>
+                                                                                    <span style={{color: 'black'}}>{t.creditAccount}</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Transaction amount</span>
+                                                                                    <span style={{color: 'black'}}>*******</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Teller ID:</span>
+                                                                                    <span style={{color:'black'}}>ADIGUNDA</span>
+                                                                                </div>
+                                                                                <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
                                                                             </div> 
-                                                                        ))}
-                                                                    </div>
-                                                            </div>)
-                                                        }
-                                                    })}
+                                                                        </div> 
+                                                                    ))}
+                                                                </div>
+                                                        </div>)
+                                                    }
+                                                    if(index === 2){
+                                                        return(<div className="auth-transfer">
+                                                                <div style={{fontSize:'1.5rem', fontWeight:'600', color:'grey'}}>Cash Withdrawal</div>
+                                                                <div className="transactions-div">
+                                                                    {transaction.withdrawalTransactions.map((t, i) => (
+                                                                        <div className="transaction" key={i}>
+                                                                            <div className="transaction-heading" style={{backgroundColor:'#496AD8'}}>Withdrawal #{i + 1}</div>
+                                                                            <div className="transaction-body">
+                                                                            <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Account number:</span>
+                                                                                    <span style={{color: 'black', fontWeight:'600'}}>{t.debitAccount}</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Transaction amount</span>
+                                                                                    <span style={{color: 'black', fontWeight:'600'}}>*******</span>
+                                                                                </div>
+                                                                                <div className="transaction-details">
+                                                                                    <span style={{color:'gray'}}>Teller ID:</span>
+                                                                                    <span style={{color:'black'}}>ADIGUNDA</span>
+                                                                                </div>
+                                                                                <button className="view-btn" onClick={()=>{setIsModalOpen(true); setActiveTransaction(t)}}><i class="fa-solid fa-eye"></i></button>
+                                                                            </div> 
+                                                                        </div> 
+                                                                    ))}
+                                                                </div>
+                                                        </div>)
+                                                    }
+                                                })}
                                                 </div>
+                                                )}
+                                                {confirmedTransaction &&(
+                                                    <AuthorizationPage transaction={activeTransaction} onApprove={()=>console.log("approved")} onReject={()=>console.log("rejected")} onClose={()=> {console.log("closed"); setConfirmedTransaction(false)}}/>
+                                                )}
+                                                
                                             </div>
                                         </>)}
                                         
