@@ -413,8 +413,7 @@ body{
   flex-direction: row;
   justify-content: start;
   align-items: start;
-  padding-top: 1.5rem;
-  column-gap: 7.5rem;
+  column-gap: 4rem;
 }
 .transaction-input-part{
   width: auto;
@@ -438,7 +437,7 @@ body{
 .input-class input{
   border: 1px solid #A4A4A4;
   background-color: #f5f5f5;
-  width: 20rem;
+  width: 17rem;
 }
 .save-button{
   width: fit-content;
@@ -457,14 +456,15 @@ body{
   flex-direction: column;
   row-gap: 0.75rem;
   justify-content: start;
-  align-items: start;
+  align-items: center;
+  margin-left: 2rem;
 }
 .details{
   width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  align-items: start;
+  align-items: center;
   row-gap: 0.175rem;
   font-weight: 500;
   color: #3c3b3b;
@@ -565,10 +565,10 @@ th, td, tr{
 }
 table input{
   height: 1rem;
-  width: 2.5rem;
-  -webkit-appearance: none;
+  width: 3.5rem;
   border: none;
   background-color: white;
+  border: 1px rgba(128, 128, 128, 0.77) solid;
 }
 table{
   border-collapse: collapse;

@@ -36,6 +36,14 @@ export default function Flexcubetest(){
         {depositTransactions: []},
         {withdrawalTransactions: []},
     ])
+    const [denominationAmount, setDenominationAmount] = useState({1000: 0, 500: 0, 200:0, 100:0, 50:0, 20:0, 10:0, 5:0})
+    function handleDenomChange(denomination, event){
+        const denomUnits = Number(event.target.value) || 0
+        setDenominationAmount(prevState => ({...prevState, [denomination]: denomUnits * denomination}))
+    }
+    useEffect(()=>{
+        console.log(denominationAmount)
+    }, [denominationAmount])
     useEffect(()=> {
         localStorage.setItem("customers", JSON.stringify(customers))
         console.log(customers)
@@ -115,7 +123,8 @@ export default function Flexcubetest(){
             let newTransaction = {
                 transactionType: "deposit",
                 creditAccount: accnt1,
-                amount: amnt
+                amount: amnt,
+                denominations: denominationAmount
             }
             setTransactions((prevTransactions)=> prevTransactions.map((transaction, index) =>
                 index === 1 ? {...transaction, depositTransactions:[...transaction.depositTransactions, newTransaction]} : transaction
@@ -125,7 +134,8 @@ export default function Flexcubetest(){
             let newTransaction = {
                 transactionType: "withdrawal",
                 debitAccount: accnt1,
-                amount: amnt
+                amount: amnt,
+                denominations: denominationAmount
             }
             setTransactions((prevTransactions)=> prevTransactions.map((transaction, index) =>
                 index === 2 ? {...transaction, withdrawalTransactions:[...transaction.withdrawalTransactions, newTransaction]} : transaction
@@ -199,6 +209,8 @@ export default function Flexcubetest(){
         setActiveCustomer2()
         setTransactionSelect()
         setFunctionSelect()
+        setActiveTransaction()
+        setConfirmedTransaction()
     }
     
     const handleCreateUser = (a, b, c, d, callback) => {
@@ -397,48 +409,48 @@ export default function Flexcubetest(){
                                                                 </tr>
                                                                 <tr>
                                                                     <td>1000</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>1000</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(1000,event)} /></td>
+                                                                    <td>{denominationAmount[1000]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>500</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(500,event)} /></td>
+                                                                    <td>{denominationAmount[500]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>200</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(200,event)} /></td>
+                                                                    <td>{denominationAmount[200]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>100</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(100,event)} /></td>
+                                                                    <td>{denominationAmount[100]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>50</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(50,event)} /></td>
+                                                                    <td>{denominationAmount[50]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>20</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(20,event)} /></td>
+                                                                    <td>{denominationAmount[20]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>10</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(10,event)} /></td>
+                                                                    <td>{denominationAmount[10]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>5</td>
-                                                                    <td><input type="number" /></td>
-                                                                    <td>0</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(5,event)} /></td>
+                                                                    <td>{denominationAmount[5]}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Total</td>
                                                                     <td></td>
-                                                                    <td>1000</td>
+                                                                    <td>{denominationAmount[1000]+denominationAmount[500]+denominationAmount[200]+denominationAmount[100]+denominationAmount[50]+denominationAmount[20]+denominationAmount[10]+denominationAmount[5]}</td>
                                                                 </tr>
                                                             </table>
                                                         </div>
@@ -495,6 +507,63 @@ export default function Flexcubetest(){
                                                         <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
                                                         
                                                     </div>
+                                                    <div className="teller-part">
+                                                        <div className="denom-details">
+                                                            <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Denomination</span>
+                                                            <table className="denom-table">
+                                                                <tr>
+                                                                    <th>Denomination</th>
+                                                                    <th>Units</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1000</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(1000,event)} /></td>
+                                                                    <td style={{width:'105px'}}>{denominationAmount[1000]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>500</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(500,event)} /></td>
+                                                                    <td>{denominationAmount[500]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>200</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(200,event)} /></td>
+                                                                    <td>{denominationAmount[200]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>100</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(100,event)} /></td>
+                                                                    <td>{denominationAmount[100]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>50</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(50,event)} /></td>
+                                                                    <td>{denominationAmount[50]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>20</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(20,event)} /></td>
+                                                                    <td>{denominationAmount[20]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>10</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(10,event)} /></td>
+                                                                    <td>{denominationAmount[10]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>5</td>
+                                                                    <td><input type="number" onChange={(event)=> handleDenomChange(5,event)} /></td>
+                                                                    <td>{denominationAmount[5]}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Total</td>
+                                                                    <td></td>
+                                                                    <td>{denominationAmount[1000]+denominationAmount[500]+denominationAmount[200]+denominationAmount[100]+denominationAmount[50]+denominationAmount[20]+denominationAmount[10]+denominationAmount[5]}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                     <div className="customer-details">
                                                         <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Customer Details:</span>
                                                         <img style={{border:'solid 4px rgb(82, 82, 82)',width: '6rem', height: '6rem', borderRadius:'5rem'}} src={activeCustomer ? activeCustomer.image: './assets/defaultpic.png'} alt="" />
@@ -514,58 +583,6 @@ export default function Flexcubetest(){
                                                             <span className="detail-labels">Signature:</span>
                                                             {activeCustomer && (<img src={activeCustomer.signature} alt="" />)}
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div className="teller-part">
-                                                    <div>
-                                                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Denomination</span>
-                                                        <table>
-                                                            <tr>
-                                                                <th>Denomination</th>
-                                                                <th>Units</th>
-                                                                <th>Total</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>1000</td>
-                                                                <td>5</td>
-                                                                <td>1000</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>500</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>200</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>100</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>50</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>20</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>10</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>5</td>
-                                                                <td>0</td>
-                                                                <td>0</td>
-                                                            </tr>
-                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
