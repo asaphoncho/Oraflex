@@ -49,43 +49,43 @@ function AuthorizationPage({transaction, onApprove, onReject, onClose}){
                             </tr>
                             <tr>
                                 <td>1000</td>
-                                <td>{transaction.denominations[1000] === 0 ? '-':`${transaction.denominations[100]/100}`}</td>
-                                <td>{transaction.denominations[1000]}</td>
+                                <td>{transaction.denominations[1000].value === 0 ? '-':`${transaction.denominations[1000].units}`}</td>
+                                <td>{transaction.denominations[1000].value}</td>
                             </tr>
                             <tr>
                                 <td>500</td>
-                                <td>{transaction.denominations[500] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[500]}</td>
+                                <td>{transaction.denominations[500].value === 0 ? '-':transaction.denominations[500].units}</td>
+                                <td>{transaction.denominations[500].value}</td>
                             </tr>
                             <tr>
                                 <td>200</td>
-                                <td>{transaction.denominations[200] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[200]}</td>
+                                <td>{transaction.denominations[200].value === 0 ? '-':transaction.denominations[200].units}</td>
+                                <td>{transaction.denominations[200].value}</td>
                             </tr>
                             <tr>
                                 <td>100</td>
-                                <td>{transaction.denominations[100] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[100]}</td>
+                                <td>{transaction.denominations[100].value === 0 ? '-':transaction.denominations[100].units}</td>
+                                <td>{transaction.denominations[100].value}</td>
                             </tr>
                             <tr>
                                 <td>50</td>
-                                <td>{transaction.denominations[50] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[50]}</td>
+                                <td>{transaction.denominations[50].value === 0 ? '-':transaction.denominations[50].units}</td>
+                                <td>{transaction.denominations[50].value}</td>
                             </tr>
                             <tr>
                                 <td>20</td>
-                                <td>{transaction.denominations[20] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[20]}</td>
+                                <td>{transaction.denominations[20].value === 0 ? '-':transaction.denominations[20].units}</td>
+                                <td>{transaction.denominations[20].value}</td>
                             </tr>
                             <tr>
                                 <td>10</td>
-                                <td>{transaction.denominations[10] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[10]}</td>
+                                <td>{transaction.denominations[10].value === 0 ? '-':transaction.denominations[10].units}</td>
+                                <td>{transaction.denominations[10].value}</td>
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td>{transaction.denominations[5] === 0 ? '-':transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[5]}</td>
+                                <td>{transaction.denominations[5].value === 0 ? '-':transaction.denominations[5].units}</td>
+                                <td>{transaction.denominations[5].value}</td>
                             </tr>
                         </table>
                     </div>
@@ -152,46 +152,44 @@ function AuthorizationPage({transaction, onApprove, onReject, onClose}){
                             </tr>
                             <tr>
                                 <td>1000</td>
-                                <td>{Number(transaction.denominations[1000])/1000}</td>
-                                <td>{transaction.denominations[1000]}</td>
+                                <td>{transaction.denominations[1000].value === 0 ? '-':`${transaction.denominations[1000].units}`}</td>
+                                <td>{transaction.denominations[1000].value}</td>
                             </tr>
                             <tr>
                                 <td>500</td>
-                                <td>{transaction.denominations[500]/500}</td>
-                                <td>{transaction.denominations[500]}</td>
+                                <td>{transaction.denominations[500].value === 0 ? '-':transaction.denominations[500].units}</td>
+                                <td>{transaction.denominations[500].value}</td>
                             </tr>
                             <tr>
                                 <td>200</td>
-                                <td>{transaction.denominations[200]/200}</td>
-                                <td>{transaction.denominations[200]}</td>
+                                <td>{transaction.denominations[200].value === 0 ? '-':transaction.denominations[200].units}</td>
+                                <td>{transaction.denominations[200].value}</td>
                             </tr>
                             <tr>
                                 <td>100</td>
-                                <td>{transaction.denominations[100]/100}</td>
-                                <td>{transaction.denominations[100]}</td>
+                                <td>{transaction.denominations[100].value === 0 ? '-':transaction.denominations[100].units}</td>
+                                <td>{transaction.denominations[100].value}</td>
                             </tr>
                             <tr>
                                 <td>50</td>
-                                <td>{transaction.denominations[50]/50}</td>
-                                <td>{transaction.denominations[50]}</td>
+                                <td>{transaction.denominations[50].value === 0 ? '-':transaction.denominations[50].units}</td>
+                                <td>{transaction.denominations[50].value}</td>
                             </tr>
                             <tr>
                                 <td>20</td>
-                                <td>{transaction.denominations[20]/20}</td>
-                                <td>{transaction.denominations[20]}</td>
+                                <td>{transaction.denominations[20].value === 0 ? '-':transaction.denominations[20].units}</td>
+                                <td>{transaction.denominations[20].value}</td>
                             </tr>
                             <tr>
                                 <td>10</td>
-                                <td>{transaction.denominations[10]/10}</td>
-                                <td>{transaction.denominations[10]}</td>
+                                <td>{transaction.denominations[10].value === 0 ? '-':transaction.denominations[10].units}</td>
+                                <td>{transaction.denominations[10].value}</td>
                             </tr>
                             <tr>
                                 <td>5</td>
-                                <td>{transaction.denominations[5]/5}</td>
-                                <td>{transaction.denominations[5]}</td>
+                                <td>{transaction.denominations[5].value === 0 ? '-':transaction.denominations[5].units}</td>
+                                <td>{transaction.denominations[5].value}</td>
                             </tr>
-                            
-
                         </table>
                     </div>
                 </div>

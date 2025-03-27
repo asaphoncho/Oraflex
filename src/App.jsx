@@ -37,10 +37,11 @@ export default function Flexcubetest(){
         {depositTransactions: []},
         {withdrawalTransactions: []},
     ])
-    const [denominationAmount, setDenominationAmount] = useState({1000: 0, 500: 0, 200:0, 100:0, 50:0, 20:0, 10:0, 5:0})
+    const [denominationAmount, setDenominationAmount] = useState({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})
+    
     function handleDenomChange(denomination, event){
         const denomUnits = Number(event.target.value) || 0
-        setDenominationAmount(prevState => ({...prevState, [denomination]: denomUnits * denomination}))
+        setDenominationAmount(prevState => ({...prevState, [denomination]: {units: denomUnits, value: denomUnits * denomination}}))
     }
     useEffect(()=>{
         console.log(denominationAmount)
@@ -139,7 +140,7 @@ export default function Flexcubetest(){
                 amount: amnt,
                 denominations: denominationAmount,
                 denominationTotal: totalValue.current.value,
-                narrative: narrative.current.value,
+                narrative: narrative.current.textContent,
                 depositorName: depositorName.current.value,
                 reference: `DEP#${transactionReference}`
             }
@@ -154,6 +155,7 @@ export default function Flexcubetest(){
                 amount: amnt,
                 denominations: denominationAmount,
                 denominationTotal: totalValue.current.value,
+                narrative: narrative.current.textContent,
                 reference: `WTD#${transactionReference}`
             }
             setTransactions((prevTransactions)=> prevTransactions.map((transaction, index) =>
@@ -226,7 +228,7 @@ export default function Flexcubetest(){
         setActiveCustomer(); 
         setTransactionReference()
         if(confirmedTransaction){setConfirmedTransaction(false)};
-        setDenominationAmount({1000: 0, 500: 0, 200:0, 100:0, 50:0, 20:0, 10:0, 5:0})
+        setDenominationAmount({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})
     }
     function handleLogout(){
         setIsLoggedin(false)
@@ -238,7 +240,7 @@ export default function Flexcubetest(){
         setFunctionSelect()
         setActiveTransaction()
         setConfirmedTransaction(false)
-        setDenominationAmount({1000: 0, 500: 0, 200:0, 100:0, 50:0, 20:0, 10:0, 5:0})
+        setDenominationAmount({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})
         if(acc1){acc1.current.value = ""}
         if(acc2){acc1.current.value = ""}
         transferAmount.current.value = ""
@@ -452,7 +454,7 @@ export default function Flexcubetest(){
                                                         </div>
                                                         <div className="input-class">
                                                             <label htmlFor="transfer-amount">Amount</label>
-                                                            <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                            <div className='auth-input' ref={transferAmount}>{denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value}</div>
                                                         </div>
                                                         <div className="input-class">
                                                             <label htmlFor="transfer-narrative">Depositor Name</label>
@@ -460,9 +462,9 @@ export default function Flexcubetest(){
                                                         </div>
                                                         <div className="input-class">
                                                             <label htmlFor="transfer-narrative">Narrative</label>
-                                                            <input type="text" name="transfer-narrative" ref={narrative} />
+                                                            <div className='auth-input' ref={narrative}>{activeCustomer ? `CSH DEP OF ${denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value} IFO ${activeCustomer.firstName.toUpperCase()}` : 'nil'}</div>
                                                         </div>
-                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
+                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, Number(transferAmount.current.textContent))}>Save</button>
                                                         
                                                     </div>
                                                     <div className="teller-part">
@@ -477,47 +479,47 @@ export default function Flexcubetest(){
                                                                 <tr>
                                                                     <td>1000</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(1000,event)} /></td>
-                                                                    <td style={{width:'105px'}}>{denominationAmount[1000]}</td>
+                                                                    <td style={{width:'105px'}}>{denominationAmount[1000].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>500</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(500,event)} /></td>
-                                                                    <td>{denominationAmount[500]}</td>
+                                                                    <td>{denominationAmount[500].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>200</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(200,event)} /></td>
-                                                                    <td>{denominationAmount[200]}</td>
+                                                                    <td>{denominationAmount[200].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>100</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(100,event)} /></td>
-                                                                    <td>{denominationAmount[100]}</td>
+                                                                    <td>{denominationAmount[100].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>50</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(50,event)} /></td>
-                                                                    <td>{denominationAmount[50]}</td>
+                                                                    <td>{denominationAmount[50].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>20</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(20,event)} /></td>
-                                                                    <td>{denominationAmount[20]}</td>
+                                                                    <td>{denominationAmount[20].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>10</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(10,event)} /></td>
-                                                                    <td>{denominationAmount[10]}</td>
+                                                                    <td>{denominationAmount[10].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>5</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(5,event)} /></td>
-                                                                    <td>{denominationAmount[5]}</td>
+                                                                    <td>{denominationAmount[5].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Total</td>
                                                                     <td></td>
-                                                                    <td ref={totalValue}>{denominationAmount[1000]+denominationAmount[500]+denominationAmount[200]+denominationAmount[100]+denominationAmount[50]+denominationAmount[20]+denominationAmount[10]+denominationAmount[5]}</td>
+                                                                    <td ref={totalValue}>{denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value}</td>
                                                                 </tr>
                                                             </table>
                                                         </div>
@@ -569,13 +571,13 @@ export default function Flexcubetest(){
                                                         </div>
                                                         <div className="input-class">
                                                             <label htmlFor="transfer-amount">Amount</label>
-                                                            <input type="number" name="transfer-amount" ref={transferAmount} />
+                                                            <div className='auth-input' ref={transferAmount}>{denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value}</div>
                                                         </div>
                                                         <div className="input-class">
                                                             <label htmlFor="transfer-narrative">Narrative</label>
-                                                            <input type="text" name="transfer-narrative" ref={narrative} />
+                                                            <div className='auth-input' ref={narrative}>{activeCustomer ? `CSH WTD OF ${denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value} IFO ${activeCustomer.firstName.toUpperCase()}` : 'nil'}</div>
                                                         </div>
-                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, transferAmount.current.value)}>Save</button>
+                                                        <button className="save-button" onClick={()=> handleTransaction(acc1.current.value, Number(transferAmount.current.textContent))}>Save</button>
                                                         
                                                     </div>
                                                     <div className="teller-part">
@@ -590,47 +592,47 @@ export default function Flexcubetest(){
                                                                 <tr>
                                                                     <td>1000</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(1000,event)} /></td>
-                                                                    <td style={{width:'105px'}}>{denominationAmount[1000]}</td>
+                                                                    <td style={{width:'105px'}}>{denominationAmount[1000].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>500</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(500,event)} /></td>
-                                                                    <td>{denominationAmount[500]}</td>
+                                                                    <td>{denominationAmount[500].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>200</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(200,event)} /></td>
-                                                                    <td>{denominationAmount[200]}</td>
+                                                                    <td>{denominationAmount[200].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>100</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(100,event)} /></td>
-                                                                    <td>{denominationAmount[100]}</td>
+                                                                    <td>{denominationAmount[100].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>50</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(50,event)} /></td>
-                                                                    <td>{denominationAmount[50]}</td>
+                                                                    <td>{denominationAmount[50].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>20</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(20,event)} /></td>
-                                                                    <td>{denominationAmount[20]}</td>
+                                                                    <td>{denominationAmount[20].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>10</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(10,event)} /></td>
-                                                                    <td>{denominationAmount[10]}</td>
+                                                                    <td>{denominationAmount[10].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>5</td>
                                                                     <td><input type="number" onChange={(event)=> handleDenomChange(5,event)} /></td>
-                                                                    <td>{denominationAmount[5]}</td>
+                                                                    <td>{denominationAmount[5].value}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Total</td>
                                                                     <td></td>
-                                                                    <td ref={totalValue}>{denominationAmount[1000]+denominationAmount[500]+denominationAmount[200]+denominationAmount[100]+denominationAmount[50]+denominationAmount[20]+denominationAmount[10]+denominationAmount[5]}</td>
+                                                                    <td ref={totalValue}>{denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value}</td>
                                                                 </tr>
                                                             </table>
                                                         </div>

@@ -111,3 +111,126 @@ else{
                 </div>  
             </>)
         }
+        How would that apply here if I wanted to delete a transaction based on reference ID: 
+
+[
+        {transferTransactions: []},
+        {depositTransactions: [
+{transactionType: "deposit", creditAccount: "1234567890", 
+amount
+: 
+"500000"
+creditAccount
+: 
+"1234567890"
+denominations
+: 
+{5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 0, 1000: 500000}
+depositorName
+: 
+"Ifeoluwa"
+narrative
+: 
+"CSH DEP/500,000/IFEOLUWA"
+reference
+: 
+"DEP#718526"}]}
+{withdrawalTransactions: [
+    {transactionType: "withdrawal", creditAccount: "1234567890", 
+amount
+: 
+"500000"
+creditAccount
+: 
+"1234567890"
+denominations
+: 
+{5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 0, 1000: 500000}
+withdrawerName
+: 
+"Ifeoluwa"
+narrative
+: 
+"CSH WTD/500,000/IFEOLUWA"
+reference
+: 
+"WTD#718526"}
+]},
+
+]
+
+sitTransactions
+: 
+[{transactionType: "deposit", creditAccount: "1234567890", amount: "500000",…},…]
+0
+: 
+{transactionType: "deposit", creditAccount: "1234567890", amount: "500000",…}
+amount
+: 
+"500000"
+creditAccount
+: 
+"1234567890"
+denominations
+: 
+{5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 0, 1000: 500000}
+depositorName
+: 
+"Ifeoluwa"
+narrative
+: 
+"CSH DEP/500,000/IFEOLUWA"
+reference
+: 
+"DEP#718526"
+transactionType
+: 
+"deposit"
+1
+: 
+{transactionType: "deposit", creditAccount: "4567890123", amount: "200000",…}
+amount
+: 
+"200000"
+creditAccount
+: 
+"4567890123"
+denominations
+: 
+{5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 0, 1000: 500000}
+depositorName
+: 
+"SELECTION"
+narrative
+: 
+"CSH DEP/500,000/SELECTION"
+reference
+: 
+"DEP#433524"
+transactionType
+: 
+"deposit"
+2
+: 
+{,…}
+withdrawalTransactions
+: 
+[{transactionType: "withdrawal", debitAccount: "7890123456", amount: "WTD/120,000/",…}]
+0
+: 
+{transactionType: "withdrawal", debitAccount: "7890123456", amount: "WTD/120,000/",…}
+amount
+: 
+"WTD/120,000/"
+debitAccount
+: 
+"7890123456"
+denominations
+: 
+{5: 0, 10: 0, 20: 0, 50: 0, 100: 0, 200: 0, 500: 20000, 1000: 100000}
+reference
+: 
+"WTD#289804"
+transactionType
+: 
+"withdrawal"
