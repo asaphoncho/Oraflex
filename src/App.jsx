@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef} from "react";
 import customerbase from './customerbase.json'
 import Modal from "./Modal";
-import AuthorizationPage from "./authorizationPage";
+import AuthorizationPage from "./AuthorizationPage";
 import './App.css'
 
 export default function Flexcubetest(){
