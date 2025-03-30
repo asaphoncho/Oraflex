@@ -116,10 +116,12 @@ export default function Flexcubetest(){
         );
         setConfirmedTransaction()
     }
-    function handleWithdrawal(account1, amount){
+    function handleWithdrawal(tran){
         setCustomers((prevUsers) => prevUsers.map((user) => {
-            if(user.accountNumber === Number(account1)){
-                return {...user, accountBalance: user.accountBalance - Number(amount)}
+            if(user.accountNumber === Number(tran.debitAccount)){
+                return {...user, accountBalance: user.accountBalance - Number(tran.amount), transactions:[...user.transactions, 
+                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: tran.debitOrCredit, narration: tran.narrative}
+                ]}
             }
             return user
         }))
@@ -137,6 +139,7 @@ export default function Flexcubetest(){
                 reference: `TRF#${transactionReference}`,
                 transactionDate: getTime().newDate,
                 transactionTime: getTime().newTime
+                
             }
             setTransactions((prevTransactions) => prevTransactions.map((transaction, index) => 
                 index === 0 ? {...transaction, transferTransactions:[...transaction.transferTransactions, newTransaction]} : transaction
@@ -153,7 +156,8 @@ export default function Flexcubetest(){
                 depositorName: depositorName.current.value,
                 reference: `DEP#${transactionReference}`,
                 transactionDate: getTime().newDate,
-                transactionTime: getTime().newTime
+                transactionTime: getTime().newTime,
+                debitOrCredit: 'credit'
             }
             setTransactions((prevTransactions)=> prevTransactions.map((transaction, index) =>
                 index === 1 ? {...transaction, depositTransactions:[...transaction.depositTransactions, newTransaction]} : transaction
@@ -169,7 +173,8 @@ export default function Flexcubetest(){
                 narrative: narrative.current.textContent,
                 reference: `WTD#${transactionReference}`,
                 transactionDate: getTime().newDate,
-                transactionTime: getTime().newTime
+                transactionTime: getTime().newTime,
+                debitOrCredit: 'debit'
             }
             setTransactions((prevTransactions)=> prevTransactions.map((transaction, index) =>
                 index === 2 ? {...transaction, withdrawalTransactions:[...transaction.withdrawalTransactions, newTransaction]} : transaction
@@ -590,7 +595,7 @@ export default function Flexcubetest(){
                                                 <Modal2>
                                                     <div>Are you sure you want to save transaction?</div>
                                                     <div className="modal-btn-div">
-                                                        <button className="login-btn" style={{backgroundColor:'green'}} onClick={()=> {handleTransaction(acc1.current.value, Number(transferAmount.current.textContent)); setAuthorizationConfirmation(false)}}>Yes</button>
+                                                        <button className="login-btn" style={{backgroundColor:'green'}} onClick={()=> {handleTransaction(acc1.current.value, Number(transferAmount.current.textContent)); setAuthorizationConfirmation(false); setTransactionSelect()}}>Yes</button>
                                                         <button className="login-btn" onClick={()=>setAuthorizationConfirmation(false)}>Cancel</button>
                                                     </div>
                                                 </Modal2>
@@ -620,7 +625,7 @@ export default function Flexcubetest(){
                                                             <label htmlFor="transfer-narrative">Narrative</label>
                                                             <div className='auth-input' ref={narrative}>{activeCustomer ? `CSH WTD OF ${denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value} IFO ${activeCustomer.firstName.toUpperCase()}` : 'nil'}</div>
                                                         </div>
-                                                        <button className="save-button" onClick={()=> setAuthorizationConfirmation(false)}>Save</button>
+                                                        <button className="save-button" onClick={()=> setAuthorizationConfirmation(true)}>Save</button>
                                                         
                                                     </div>
                                                     <div className="teller-part">
@@ -847,7 +852,7 @@ export default function Flexcubetest(){
                                                                             handleDeposit(activeTransaction.creditAccount,activeTransaction.amount)
                                                                         }
                                                                         else if(activeTransaction.transactionType === "withdrawal"){
-                                                                            handleWithdrawal(activeTransaction.debitAccount, activeTransaction.amount)
+                                                                            handleWithdrawal(activeTransaction)
                                                                         }
                                                                         else if(activeTransaction.transactionType === "transfer"){
                                                                             fundTransfer(activeTransaction.debitAccount, activeTransaction.creditAccount, activeTransaction.amount)
