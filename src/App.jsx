@@ -27,6 +27,7 @@ export default function Flexcubetest(){
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [confirmedTransaction, setConfirmedTransaction] = useState(false)
     const [authorizationConfirmation, setAuthorizationConfirmation] = useState(false)
+    const [searchedCustomer, setSearchedCustomer] = useState()
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
         {userName: "Uchedike", name:"Uchechukwu Glory Ukadike", role: "Assistant Head of Operations", isSupervisor: true, branch: 271, password: "Uchedike1"},
@@ -74,6 +75,12 @@ export default function Flexcubetest(){
         const searchedUser = users.find(user => user.name == event.target.value)
         setSearchResult(searchedUser)
     }
+    function searchCustomer(x){
+        const searchedUser = customers.find(customer => customer.accountNumber === Number(x))
+        if(searchedUser){
+            setSearchedCustomer(searchedUser)
+        }
+    }
     function getTime(){
         const now = new Date()
         const transactionTime = {newDate:`${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getFullYear())}`, newTime:`${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}`}
@@ -97,10 +104,12 @@ export default function Flexcubetest(){
         }))
         
     }
-    function handleDeposit(account1, amount){
+    function handleDeposit(tran){
         setCustomers((prevUsers) => prevUsers.map((user) => {
-            if(user.accountNumber === Number(account1)){
-                return {...user, accountBalance: user.accountBalance + Number(amount)}
+            if(user.accountNumber === Number(tran.creditAccount)){
+                return {...user, accountBalance: user.accountBalance + Number(tran.amount), transactions:[...user.transactions, 
+                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: tran.debitOrCredit, narration: tran.narrative, accountBalance: user.accountBalance + Number(tran.amount)}
+                ]}
             }
             return user
         }))   
@@ -120,7 +129,7 @@ export default function Flexcubetest(){
         setCustomers((prevUsers) => prevUsers.map((user) => {
             if(user.accountNumber === Number(tran.debitAccount)){
                 return {...user, accountBalance: user.accountBalance - Number(tran.amount), transactions:[...user.transactions, 
-                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: tran.debitOrCredit, narration: tran.narrative}
+                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: tran.debitOrCredit, narration: tran.narrative, accountBalance: user.accountBalance - Number(tran.amount)}
                 ]}
             }
             return user
@@ -180,14 +189,14 @@ export default function Flexcubetest(){
                 index === 2 ? {...transaction, withdrawalTransactions:[...transaction.withdrawalTransactions, newTransaction]} : transaction
             ))
         }
-        
+        setAuthorizationConfirmation(false)
+        setTransactionSelect()
+        setActiveCustomer()
+        setActiveCustomer2()
         acc1.current.value = ""
         transferAmount.current.value = ""
         depositorName.current.value=""
         narrative.current.value=""
-        setTransactionSelect()
-        setActiveCustomer()
-        setActiveCustomer2()
         acc2.current.value = ""
     }
     function handleType(event){
@@ -243,6 +252,7 @@ export default function Flexcubetest(){
     }
     function handleBack(){
         setTransactionSelect();
+        setSearchedCustomer();
         setActiveCustomer(); 
         setTransactionReference()
         if(confirmedTransaction){setConfirmedTransaction(false)};
@@ -257,6 +267,7 @@ export default function Flexcubetest(){
         setTransactionSelect()
         setFunctionSelect()
         setActiveTransaction()
+        setSearchedCustomer()
         setConfirmedTransaction(false)
         setDenominationAmount({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})
         if(acc1){acc1.current.value = ""}
@@ -468,7 +479,7 @@ export default function Flexcubetest(){
                                                 <Modal2>
                                                     <div>Are you sure you want to save transaction?</div>
                                                     <div className="modal-btn-div">
-                                                        <button className="login-btn" style={{backgroundColor:'green'}} onClick={()=> {handleTransaction(acc1.current.value, Number(transferAmount.current.textContent)); setAuthorizationConfirmation(false)}}>Yes</button>
+                                                        <button className="login-btn" style={{backgroundColor:'green'}} onClick={()=> {handleTransaction(acc1.current.value, Number(transferAmount.current.textContent))}}>Yes</button>
                                                         <button className="login-btn" onClick={()=>setAuthorizationConfirmation(false)}>Cancel</button>
                                                     </div>
                                                 </Modal2>
@@ -849,7 +860,7 @@ export default function Flexcubetest(){
                                                                 <div className="modal-btn-div">
                                                                     <button className="login-btn" style={{backgroundColor:'green'}} onClick={()=>{
                                                                         if(activeTransaction.transactionType === "deposit"){
-                                                                            handleDeposit(activeTransaction.creditAccount,activeTransaction.amount)
+                                                                            handleDeposit(activeTransaction)
                                                                         }
                                                                         else if(activeTransaction.transactionType === "withdrawal"){
                                                                             handleWithdrawal(activeTransaction)
@@ -857,7 +868,7 @@ export default function Flexcubetest(){
                                                                         else if(activeTransaction.transactionType === "transfer"){
                                                                             fundTransfer(activeTransaction.debitAccount, activeTransaction.creditAccount, activeTransaction.amount)
                                                                         }
-                                                                        approvedTransaction(activeTransaction.reference)
+                                                                        approvedTransaction(activeTransaction.reference);
                                                                         setAuthorizationConfirmation(false)
                                                                     }}>Yes</button>
                                                                     <button className="login-btn" onClick={()=> setAuthorizationConfirmation(false)}>Cancel</button>
@@ -882,9 +893,44 @@ export default function Flexcubetest(){
                             </div>
                         )}
                         {functionSelect === "historyFunction" &&(
-                            <div>
-                                History function yet to be added
-                            </div>
+                            <>
+                                {!searchedCustomer &&(
+                                    <div className="search-holiding-div">
+                                        <div className="search-div">
+                                            <input className="search-input" type="text" ref={acc1} placeholder="Enter account number here" />
+                                            <button className="search-button" onClick={()=>searchCustomer(acc1.current.value)}><i class="fa-solid fa-circle-dollar-to-slot"></i></button>
+                                        </div>
+                                    </div>
+                                )}
+                                {searchedCustomer &&(
+                                    <>
+                                        <div>
+                                            <img src={searchedCustomer.image} alt="" style={{width:'2rem', height:'2rem'}} />
+                                            <span>{searchedCustomer.firstName}</span>
+                                        </div>
+                                        <div>Transaction History</div>
+                                        <div>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Narrative</th>
+                                                <th>Withdrawal</th>
+                                                <th>Lodgement</th>
+                                                <th>Account Balance</th>
+                                            </tr>
+                                            {searchedCustomer.transactions.map((transaction, index) =>(
+                                                <tr>
+                                                    <td>{transaction.transDate}</td>
+                                                    <td>{transaction.narration}</td>
+                                                    <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
+                                                    <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
+                                                    <td>{transaction.accountBalance}</td>
+                                                </tr>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </>
+                            
                         )}
                     </div>
                 </div>
