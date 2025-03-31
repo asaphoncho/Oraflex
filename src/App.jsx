@@ -6,11 +6,13 @@ import Modal2 from "./Modal2";
 import './App.css'
 
 export default function Flexcubetest(){
-    
+    //Localstorage
     var transferList = JSON.parse(localStorage.getItem("transactions"))
     var userList = JSON.parse(localStorage.getItem("users"))
-    const [transactionReference, setTransactionReference] = useState()
     var customerList = JSON.parse(localStorage.getItem("customers"))
+
+    //States
+    const [transactionReference, setTransactionReference] = useState()
     const [transactionSelect, setTransactionSelect] = useState()
     const [activeTransaction, setActiveTransaction] = useState()
     const [functionSelect, setFunctionSelect] = useState()
@@ -42,10 +44,7 @@ export default function Flexcubetest(){
     ])
     const [denominationAmount, setDenominationAmount] = useState({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})
     
-    function handleDenomChange(denomination, event){
-        const denomUnits = Number(event.target.value) || 0
-        setDenominationAmount(prevState => ({...prevState, [denomination]: {units: denomUnits, value: denomUnits * denomination}}))
-    }
+    
     useEffect(()=>{
         console.log(denominationAmount)
     }, [denominationAmount])
@@ -70,7 +69,10 @@ export default function Flexcubetest(){
     const depositorName = useRef()
     const totalValue = useRef()
 
-
+    function handleDenomChange(denomination, event){
+        const denomUnits = Number(event.target.value) || 0
+        setDenominationAmount(prevState => ({...prevState, [denomination]: {units: denomUnits, value: denomUnits * denomination}}))
+    }
     const handleSearch = (event) => {
         const searchedUser = users.find(user => user.name == event.target.value)
         setSearchResult(searchedUser)
@@ -895,38 +897,65 @@ export default function Flexcubetest(){
                         {functionSelect === "historyFunction" &&(
                             <>
                                 {!searchedCustomer &&(
-                                    <div className="search-holiding-div">
+                                    
+                                    <div style={{justifyContent:'center', width:'92%'}} className="withdrawal-page">
+                                        <div className="withdrawal-header">
+                                            <span>Transaction History</span>
+                                        </div>
                                         <div className="search-div">
                                             <input className="search-input" type="text" ref={acc1} placeholder="Enter account number here" />
-                                            <button className="search-button" onClick={()=>searchCustomer(acc1.current.value)}><i class="fa-solid fa-circle-dollar-to-slot"></i></button>
+                                            <button className="search-button" onClick={()=>searchCustomer(acc1.current.value)}><i class="fa-solid fa-magnifying-glass"></i></button>
                                         </div>
                                     </div>
                                 )}
                                 {searchedCustomer &&(
-                                    <>
-                                        <div>
-                                            <img src={searchedCustomer.image} alt="" style={{width:'2rem', height:'2rem'}} />
-                                            <span>{searchedCustomer.firstName}</span>
-                                        </div>
-                                        <div>Transaction History</div>
-                                        <div>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Narrative</th>
-                                                <th>Withdrawal</th>
-                                                <th>Lodgement</th>
-                                                <th>Account Balance</th>
-                                            </tr>
-                                            {searchedCustomer.transactions.map((transaction, index) =>(
+                                    <>  
+                                        <div className="found-acc-th">
+                                            <div className="th-header">
+                                                <img src={searchedCustomer.image} alt="" style={{width:'7rem', height:'7rem', borderRadius:'5rem', border:'solid 3.5px #1F1F1F'}} />
+                                                <div className="th-header-details">
+                                                    <span style={{fontWeight:'bold', fontSize:'0.9rem'}}>Customer name</span>
+                                                    <span>{`${searchedCustomer.firstName.toUpperCase()} ${searchedCustomer.middleName.toUpperCase()} ${searchedCustomer.lastName.toUpperCase()}`}</span>
+                                                </div>
+                                                <div className="th-header-details">
+                                                    <span style={{fontWeight:'bold'}}>Account number</span>
+                                                    <span>{searchedCustomer.accountNumber}</span>
+                                                </div>
+                                                <div className="th-header-details">
+                                                    <span style={{fontWeight:'bold'}}>Customer ID</span>
+                                                    <span>{searchedCustomer.customerId}</span>
+                                                </div>
+                                            </div>
+                                            <nav className="th-nav">
+                                                <button style={{borderBottom:'solid 3.5px #D8494B'}}>View transactions</button>
+                                                <button>Customer info</button>
+                                                <button>Mandate</button>
+                                                <button>Customer records</button>
+                                            </nav>
+                                            <div className="search-div2">
+                                                <input type="text" ref={acc1} placeholder="Account number" />
+                                                <button className="search-button" onClick={()=>searchCustomer(acc1.current.value)}><i class="fa-solid fa-magnifying-glass"></i></button>
+                                            </div>
+                                            <div className="table-div">
                                                 <tr>
-                                                    <td>{transaction.transDate}</td>
-                                                    <td>{transaction.narration}</td>
-                                                    <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
-                                                    <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
-                                                    <td>{transaction.accountBalance}</td>
+                                                    <th>Date</th>
+                                                    <th>Description</th>
+                                                    <th>Withdrawal</th>
+                                                    <th>Lodgement</th>
+                                                    <th>Account Balance</th>
                                                 </tr>
-                                            ))}
+                                                {searchedCustomer.transactions.map((transaction, index) =>(
+                                                    <tr>
+                                                        <td>{transaction.transDate}</td>
+                                                        <td>{transaction.narration}</td>
+                                                        <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
+                                                        <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
+                                                        <td>{transaction.accountBalance}</td>
+                                                    </tr>
+                                                ))}
+                                            </div>
                                         </div>
+                                        
                                     </>
                                 )}
                             </>
