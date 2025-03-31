@@ -14,6 +14,7 @@ export default function Flexcubetest(){
     //States
     const [transactionReference, setTransactionReference] = useState()
     const [transactionSelect, setTransactionSelect] = useState()
+    const [thSection, setThSection] = useState("customerTransactions")
     const [activeTransaction, setActiveTransaction] = useState()
     const [functionSelect, setFunctionSelect] = useState()
     const [username, setUsername] = useState("")
@@ -94,13 +95,17 @@ export default function Flexcubetest(){
     function handlePasswordChange(event){
         setPassword(event.target.value)
     }
-    function fundTransfer(account1, account2, amount){
+    function fundTransfer(tran){
         setCustomers((prevUsers) => prevUsers.map((user) => {
-            if(user.accountNumber === Number(account1)){
-                return {...user, accountBalance: user.accountBalance - Number(amount)}
+            if(user.accountNumber === Number(tran.debitAccount)){
+                return {...user, accountBalance: user.accountBalance - Number(tran.amount), transactions:[...user.transactions, 
+                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: 'debit', narration: tran.narrative, accountBalance: user.accountBalance - Number(tran.amount)}
+                ]}
             }
-            else if(user.accountNumber === Number(account2)){
-                return {...user, accountBalance: user.accountBalance + Number(amount)}
+            else if(user.accountNumber === Number(tran.creditAccount)){
+                return {...user, accountBalance: user.accountBalance + Number(tran.amount), transactions:[...user.transactions, 
+                    {transDate:tran.transactionDate, transTime: tran.transactionTime, transAmount: tran.amount, debitOrCredit: 'credit', narration: tran.narrative, accountBalance: user.accountBalance + Number(tran.amount)}]
+                }
             }
             return user
         }))
@@ -868,7 +873,7 @@ export default function Flexcubetest(){
                                                                             handleWithdrawal(activeTransaction)
                                                                         }
                                                                         else if(activeTransaction.transactionType === "transfer"){
-                                                                            fundTransfer(activeTransaction.debitAccount, activeTransaction.creditAccount, activeTransaction.amount)
+                                                                            fundTransfer(activeTransaction)
                                                                         }
                                                                         approvedTransaction(activeTransaction.reference);
                                                                         setAuthorizationConfirmation(false)
@@ -927,32 +932,48 @@ export default function Flexcubetest(){
                                                 </div>
                                             </div>
                                             <nav className="th-nav">
-                                                <button style={{borderBottom:'solid 3.5px #D8494B'}}>View transactions</button>
-                                                <button>Customer info</button>
-                                                <button>Mandate</button>
-                                                <button>Customer records</button>
+                                                <button onClick={()=> setThSection("customerTransactions")} style={thSection === "customerTransactions" ? {borderBottom:'solid 3.5px #D8494B'} : null}>View transactions</button>
+                                                <button onClick={()=> setThSection("customerInfo")} style={thSection === "customerInfo" ? {borderBottom:'solid 3.5px #D8494B'} : null}>Customer info</button>
+                                                <button onClick={()=> setThSection("customerMandate")} style={thSection === "customerMandate" ? {borderBottom:'solid 3.5px #D8494B'} : null}>Mandate</button>
+                                                <button onClick={()=> setThSection("customerRecords")} style={thSection === "customerRecords" ? {borderBottom:'solid 3.5px #D8494B'} : null}>Customer records</button>
                                             </nav>
                                             <div className="search-div2">
                                                 <input type="text" ref={acc1} placeholder="Account number" />
                                                 <button className="search-button" onClick={()=>searchCustomer(acc1.current.value)}><i class="fa-solid fa-magnifying-glass"></i></button>
                                             </div>
                                             <div className="table-div">
-                                                <tr>
-                                                    <th>Date</th>
-                                                    <th>Description</th>
-                                                    <th>Withdrawal</th>
-                                                    <th>Lodgement</th>
-                                                    <th>Account Balance</th>
-                                                </tr>
-                                                {searchedCustomer.transactions.map((transaction, index) =>(
-                                                    <tr>
-                                                        <td>{transaction.transDate}</td>
-                                                        <td>{transaction.narration}</td>
-                                                        <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
-                                                        <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
-                                                        <td>{transaction.accountBalance}</td>
-                                                    </tr>
-                                                ))}
+                                                {thSection === "customerTransactions" && (
+                                                    <>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Description</th>
+                                                            <th>Withdrawal</th>
+                                                            <th>Lodgement</th>
+                                                            <th>Account Balance</th>
+                                                        </tr>
+                                                        {searchedCustomer.transactions.map((transaction, index) =>(
+                                                            <tr key={index}>
+                                                                <td>{transaction.transDate}</td>
+                                                                <td>{transaction.narration}</td>
+                                                                <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
+                                                                <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
+                                                                <td>{transaction.accountBalance}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </>
+                                                )}
+                                                {thSection === "customerMandate" &&(
+                                                    <div className="mandate-div">
+                                                        <div className="mandate-details">
+                                                            <span>Image</span>
+                                                            <img src={searchedCustomer.image} style={{width:'10rem', height:'10rem'}} alt="" />
+                                                        </div>
+                                                        <div className="mandate-details">
+                                                            <span>Signature</span>
+                                                            <img src={searchedCustomer.signature} style={{width:'8rem', height:'5rem'}} alt="" />
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         
