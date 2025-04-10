@@ -1003,7 +1003,7 @@ export default function Flexcubetest(){
     else{
         return(<>
             <div className="mobile-view">
-                <span>This page can only be loaded on laptop and other devices with large screens.</span>
+                <span>This page can only be loaded on a desktop/laptop computer and other devices with large screens.</span>
                 <span>Please try again with a device that fits the description.</span>
             </div>
         </>)
