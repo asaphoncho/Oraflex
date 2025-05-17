@@ -5,6 +5,7 @@ import AuthorizationPage from "./AuthorizationPage";
 import Modal2 from "./Modal2";
 import TransactionHistory from "./TransactionHistory";
 import DepositTransaction from "./DepositTransaction";
+import BranchOperationsPage from "./BranchOperationsPage";
 import './App.css'
 
 export default function Flexcubetest(){
@@ -33,6 +34,7 @@ export default function Flexcubetest(){
     const [confirmedTransaction, setConfirmedTransaction] = useState(false)
     const [authorizationConfirmation, setAuthorizationConfirmation] = useState(false)
     const [searchedCustomer, setSearchedCustomer] = useState()
+    const [batchState, setBatchState] = useState(false)
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
         {userName: "Uchedike", name:"Uchechukwu Glory Ukadike", role: "Assistant Head of Operations", isSupervisor: true, branch: 271, password: "Uchedike1"},
@@ -639,7 +641,7 @@ export default function Flexcubetest(){
                                                     <span>Vault Operations</span>
                                                     <i class="fa-solid fa-cash-register"></i>
                                                 </div>
-                                                <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
+                                                <div onClick={()=> setTransactionSelect("branchOperations")} className="transaction-card">
                                                     <span>Branch Operations</span>
                                                     <i class="fa-solid fa-sack-dollar"></i>
                                                 </div>
@@ -771,7 +773,11 @@ export default function Flexcubetest(){
                                                     )}
                                                     
                                                 </div>
-                                            </>)}
+                                            </>)
+                                            }
+                                            {transactionSelect === "branchOperations" && (
+                                                <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setBatchState(true)}} closeBatchFunction={()=>{setBatchState(false)}}/>
+                                            )}
                                             
                                         </>
                                     )}

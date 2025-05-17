@@ -117,7 +117,7 @@ function DepositTransaction({backFunction, typeFunction, depositFunction, handle
                             </div>
                             <div className="details">
                                 <span className="detail-labels">Account Status:</span>
-                                <span>{activeCustomer ? 'Regular' : 'nil'}</span>
+                                <span>{activeCustomer ? activeCustomer.accountActive ? 'Regular' : 'PND' : 'nil'}</span>
                             </div>
                             <div className="details">
                                 <span className="detail-labels">Phone number:</span>
