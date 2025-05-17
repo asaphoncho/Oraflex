@@ -13,6 +13,7 @@ export default function Flexcubetest(){
     var transferList = JSON.parse(localStorage.getItem("transactions"))
     var userList = JSON.parse(localStorage.getItem("users"))
     var customerList = JSON.parse(localStorage.getItem("customers"))
+    let batchState = JSON.parse(localStorage.getItem("batchState"))
     
 
     //States
@@ -34,7 +35,7 @@ export default function Flexcubetest(){
     const [confirmedTransaction, setConfirmedTransaction] = useState(false)
     const [authorizationConfirmation, setAuthorizationConfirmation] = useState(false)
     const [searchedCustomer, setSearchedCustomer] = useState()
-    const [batchState, setBatchState] = useState(false)
+    const [isBatchOpen, setIsBatchOpen] = useState(batchState? batchState : false)
     const [users, setUsers] = useState(userList ? userList : [
         {userName: "Honcho", name:"Ifeoluwa Olayinka Adedeji", role: "Head of Operations", isSupervisor: true, branch: 271, password: "Adedeji1"},
         {userName: "Uchedike", name:"Uchechukwu Glory Ukadike", role: "Assistant Head of Operations", isSupervisor: true, branch: 271, password: "Uchedike1"},
@@ -53,14 +54,21 @@ export default function Flexcubetest(){
     useEffect(()=>{
         console.log(denominationAmount)
     }, [denominationAmount])
+
     useEffect(()=> {
         localStorage.setItem("customers", JSON.stringify(customers))
         console.log(customers)
     }, [customers])
+
     useEffect(()=> {
         localStorage.setItem("transactions", JSON.stringify(transactions))
         console.log(transactions)
     }, [transactions])
+
+    useEffect(()=>{
+        localStorage.setItem("batchState", JSON.stringify(isBatchOpen))
+    }, [isBatchOpen])
+
     useEffect(()=> {console.log(activeTransaction); console.log(transactionSelect)}, [activeTransaction])
     
     const userCreate = useRef()
@@ -371,15 +379,15 @@ export default function Flexcubetest(){
                                     {!searchResult.isSupervisor &&(
                                         <>
                                             {!transactionSelect &&(<>
-                                                <div onClick={()=> {setTransactionSelect("transfer"); setTransactionReference(randomReference)}} className="transaction-card">
-                                                <span>Funds Transfer</span>
-                                                <i class="fa-solid fa-money-bill-transfer"></i>
-                                                </div>
-                                            <div onClick={()=> {setTransactionSelect("deposit"); setTransactionReference(randomReference)}} className="transaction-card">
+                                            <div onClick={isBatchOpen ? ()=> {setTransactionSelect("transfer"); setTransactionReference(randomReference)} : null} className="transaction-card" style={isBatchOpen ? null : {color:'#6a6a6a'}}>
+                                            <span>Funds Transfer</span>
+                                            <i class="fa-solid fa-money-bill-transfer"></i>
+                                            </div>
+                                            <div onClick={isBatchOpen ? ()=> {setTransactionSelect("deposit"); setTransactionReference(randomReference)} : null} className="transaction-card" style={isBatchOpen ? null : {color:'#6a6a6a'}}>
                                                 <span>Deposit</span>
                                                 <i class="fa-solid fa-cash-register"></i>
                                             </div>
-                                            <div onClick={()=> {setTransactionSelect("withdrawal"); setTransactionReference(randomReference)}} className="transaction-card">
+                                            <div onClick={isBatchOpen ? ()=> {setTransactionSelect("withdrawal"); setTransactionReference(randomReference)} : null} className="transaction-card" style={isBatchOpen ? null : {color:'#6a6a6a'}}>
                                                 <span>Withdrawal</span>
                                                 <i class="fa-solid fa-sack-dollar"></i>
                                             </div> 
@@ -645,10 +653,6 @@ export default function Flexcubetest(){
                                                     <span>Branch Operations</span>
                                                     <i class="fa-solid fa-sack-dollar"></i>
                                                 </div>
-                                                <div onClick={()=> setTransactionSelect("withdrawal")} className="transaction-card">
-                                                    <span>Branch Operations</span>
-                                                    <i class="fa-solid fa-sack-dollar"></i>
-                                                </div>
                                             </>
                                             )}
                                             {transactionSelect === "authorizeTransactions" &&(<>
@@ -776,7 +780,7 @@ export default function Flexcubetest(){
                                             </>)
                                             }
                                             {transactionSelect === "branchOperations" && (
-                                                <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setBatchState(true)}} closeBatchFunction={()=>{setBatchState(false)}}/>
+                                                <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setIsBatchOpen(true)}} closeBatchFunction={()=>{setIsBatchOpen(false)}}/>
                                             )}
                                             
                                         </>
