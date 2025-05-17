@@ -6,6 +6,8 @@ import Modal2 from "./Modal2";
 import TransactionHistory from "./TransactionHistory";
 import DepositTransaction from "./DepositTransaction";
 import BranchOperationsPage from "./BranchOperationsPage";
+import VaultOperationsPage from "./VaultOperationsPage";
+
 import './App.css'
 
 export default function Flexcubetest(){
@@ -379,6 +381,7 @@ export default function Flexcubetest(){
                                     {!searchResult.isSupervisor &&(
                                         <>
                                             {!transactionSelect &&(<>
+                                            {isBatchOpen ? null : <div className="batch-error-message">Please note that you cannot initiate a transaction as branch batch is not open</div>}
                                             <div onClick={isBatchOpen ? ()=> {setTransactionSelect("transfer"); setTransactionReference(randomReference)} : null} className="transaction-card" style={isBatchOpen ? null : {color:'#6a6a6a'}}>
                                             <span>Funds Transfer</span>
                                             <i class="fa-solid fa-money-bill-transfer"></i>
@@ -645,7 +648,7 @@ export default function Flexcubetest(){
                                                     <span>Authorize transactions</span>
                                                     <i class="fa-solid fa-money-bill-transfer"></i>
                                                 </div>
-                                                <div onClick={()=> setTransactionSelect("deposit")} className="transaction-card">
+                                                <div onClick={()=> setTransactionSelect("vaultOperations")} className="transaction-card">
                                                     <span>Vault Operations</span>
                                                     <i class="fa-solid fa-cash-register"></i>
                                                 </div>
@@ -781,6 +784,9 @@ export default function Flexcubetest(){
                                             }
                                             {transactionSelect === "branchOperations" && (
                                                 <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setIsBatchOpen(true)}} closeBatchFunction={()=>{setIsBatchOpen(false)}}/>
+                                            )}
+                                            {transactionSelect === "vaultOperations" &&(
+                                                <VaultOperationsPage handleBack={handleBack}/>
                                             )}
                                             
                                         </>

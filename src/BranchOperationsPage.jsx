@@ -8,7 +8,6 @@ function BranchOperationsPage({handleBack, openBatchFunction, closeBatchFunction
     
     return(<>
         <div style={{justifyContent:'center', width:'92%'}} className="withdrawal-page">
-            
             {!branchOperationSelect && (
                 <>
                     <div className="withdrawal-header">
@@ -16,11 +15,11 @@ function BranchOperationsPage({handleBack, openBatchFunction, closeBatchFunction
                     <span>Branch Operations</span>
                     </div>
                     <div className='branchBatch-functions'>
-                        <div onClick={()=>setBranchOperationSelect("batchOpen")} className="transaction-card">
+                        <div onClick={()=>setBranchOperationSelect("batchOpen")} className="transaction-cardii">
                             <span>Open Branch Batch</span>
                             <i class="fa-solid fa-envelope-open-text"></i>
                         </div>
-                        <div onClick={()=>setBranchOperationSelect("batchClose")} className="transaction-card">
+                        <div onClick={()=>setBranchOperationSelect("batchClose")} className="transaction-cardii">
                             <span>Close Branch Batch</span>
                             <i class="fa-solid fa-envelope"></i>
                         </div>
