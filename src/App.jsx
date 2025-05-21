@@ -111,6 +111,32 @@ export default function Flexcubetest(){
             return user
         }))
     }
+    function sellCashCBN(){
+        const defaultDenominations = customers[50].balanceDenominations
+        const updatedDenominations = {...defaultDenominations}
+        const now = new Date()
+        const transactionTime = {newDate:`${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getFullYear())}`, newTime:`${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}`}
+
+        for(const key in denominationAmount){
+            if(updatedDenominations[key]){
+                updatedDenominations[key] = {
+                    units: updatedDenominations[key].units - denominationAmount[key].units,
+                    value: updatedDenominations[key].value - denominationAmount[key].value
+                }
+            }
+            else{
+                updatedDenominations[key] = {...denominationAmount[key]}
+            }
+        }
+        setCustomers((prevUsers) => prevUsers.map((user) => {
+            if(user.accountNumber === 1101010000){
+                return {...user, accountBalance: user.accountBalance - Number(transferAmount.current.value), balanceDenominations: updatedDenominations, transactions:[...user.transactions, 
+                    {transDate:transactionTime.newDate, transTime: transactionTime.newTime, transAmount: Number(transferAmount.current.value), debitOrCredit: 'credit', narration: narrative.current.value, accountBalance: user.accountBalance - Number(transferAmount.current.value)}
+                ]}
+            }
+            return user
+        }))
+    }
 
     function handleDenomChange(denomination, event){
         const denomUnits = Number(event.target.value) || 0
@@ -813,7 +839,7 @@ export default function Flexcubetest(){
                                                 <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setIsBatchOpen(true)}} closeBatchFunction={()=>{setIsBatchOpen(false)}}/>
                                             )}
                                             {transactionSelect === "vaultOperations" &&(
-                                                <VaultOperationsPage handleBack={handleBack} handleDenomChange={handleDenomChange} denominationAmount={denominationAmount} narrativeRef={narrative} amountRef={transferAmount} handleBuyCBN={buyCashCBN}/>
+                                                <VaultOperationsPage handleBack={handleBack} handleDenomChange={handleDenomChange} denominationAmount={denominationAmount} narrativeRef={narrative} amountRef={transferAmount} handleBuyCBN={buyCashCBN} handleSellCBN={sellCashCBN}/>
                                             )}
                                         </>
                                     )}

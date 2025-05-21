@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './App.css'
 
-function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack, handleDenomChange, denominationAmount, narrativeRef, amountRef, handleBuyCBN}){
+function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack, handleDenomChange, denominationAmount, narrativeRef, amountRef, handleBuyCBN, handleSellCBN}){
     const [vaultOperationSelect, setVaultOperationSelect] = useState()
     const [isInputValid, setIsInputValid] = useState(false)
     const [errorMessage, setErrorMessage] = useState('Enter amount')
@@ -10,9 +10,14 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
     const transactionDate = {newDate:`${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getFullYear())}`}
     const totalValue = document.getElementById('total-value')
     
-
+    function sellCash(){
+        if(!errorMessage && Number(totalValue.textContent) === Number(amountRef.current.value)){
+            handleSellCBN()
+            handleBack()
+        } 
+    }
     function buyCash(){
-        if(!errorMessage){
+        if(!errorMessage && Number(totalValue.textContent) === Number(amountRef.current.value)){
             handleBuyCBN()
             handleBack()
         } 
@@ -30,7 +35,6 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
     function validateSum(){
         if(Number(totalValue.textContent) === Number(amountRef.current.value)){
             setErrorMessage()
-            console.log('correct')
         }
         else{
             setErrorMessage('Entered amount differs from denomination total')
@@ -107,9 +111,89 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
                         <div className="input-class">
                             <label htmlFor="buy-narrative">Narrative</label>
                             <input id='buy-narrative' type="text" ref={narrativeRef}/>
-                            <span>{errorMessage}</span>
+                            <span style={{fontSize: '0.75rem'}}>{errorMessage}</span>
                         </div>
                         <button className="save-button" onClick={()=>{buyCash()}}>Save</button>   
+                    </div>
+                    <div className="teller-part" style={isInputValid ? {opacity: 1} : {opacity: 0}}>
+                        <div className="denom-details">
+                            <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Denomination</span>
+                            <table className="denom-table">
+                                <tr>
+                                    <th>Denomination</th>
+                                    <th>Units</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr>
+                                    <td>1000</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(1000,event)} /></td>
+                                    <td style={{width:'105px'}}>{denominationAmount[1000].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>500</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(500,event)} /></td>
+                                    <td>{denominationAmount[500].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>200</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(200,event)} /></td>
+                                    <td>{denominationAmount[200].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>100</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(100,event)} /></td>
+                                    <td>{denominationAmount[100].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>50</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(50,event)} /></td>
+                                    <td>{denominationAmount[50].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>20</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(20,event)} /></td>
+                                    <td>{denominationAmount[20].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(10,event)} /></td>
+                                    <td>{denominationAmount[10].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><input onBlur={validateSum} type="number" onChange={(event)=> handleDenomChange(5,event)} /></td>
+                                    <td>{denominationAmount[5].value}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td></td>
+                                    <td id='total-value'>{denominationAmount[1000].value+denominationAmount[500].value+denominationAmount[200].value+denominationAmount[100].value+denominationAmount[50].value+denominationAmount[20].value+denominationAmount[10].value+denominationAmount[5].value}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>  
+                </>
+            )}
+            {vaultOperationSelect === "sellCashCBN" &&(
+                <>
+                <div className="withdrawal-header">
+                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setVaultOperationSelect()}}><i class="fa-solid fa-arrow-left"></i></button>
+                    <span>Sell Cash To CBN</span>
+                </div>
+                <div className='withdrawal-details'>
+                    <div className="transaction-input-part">
+                        <span style={{fontWeight:'600', fontSize:'1.25rem', color:''}}>Transaction Details</span>
+                        <div className="input-class">
+                            <label htmlFor="total-cash">Total Required Cash</label>
+                            <input type="number" id='total-cash' ref={amountRef} onBlur={handleBlur}/>
+                        </div>
+                        <div className="input-class">
+                            <label htmlFor="buy-narrative">Narrative</label>
+                            <input id='buy-narrative' type="text" ref={narrativeRef}/>
+                            <span style={{fontSize: '0.75rem'}}>{errorMessage}</span>
+                        </div>
+                        <button className="save-button" onClick={()=>{sellCash()}}>Save</button>   
                     </div>
                     <div className="teller-part" style={isInputValid ? {opacity: 1} : {opacity: 0}}>
                         <div className="denom-details">
