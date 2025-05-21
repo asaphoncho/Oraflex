@@ -51,9 +51,9 @@ function TransactionHistory({searchedCustomer, searchFunction, accountRef}){
                                                             <tr>
                                                                 <th>Date</th>
                                                                 <th>Description</th>
-                                                                <th>Withdrawal</th>
-                                                                <th>Lodgement</th>
-                                                                <th>Account Balance</th>
+                                                                <th>{searchedCustomer.accountNumber === 1101010000 ? 'Debit' : 'Withdrawal'}</th>
+                                                                <th>{searchedCustomer.accountNumber === 1101010000 ? 'Credit' : 'Lodgement'}</th>
+                                                                <th>{searchedCustomer.accountNumber === 1101010000 ? 'Running Balace' : 'Account Balance'}</th>
                                                             </tr>
                                                             {searchedCustomer.transactions.map((transaction, index) =>(
                                                                 <tr key={index}>
@@ -61,7 +61,7 @@ function TransactionHistory({searchedCustomer, searchFunction, accountRef}){
                                                                     <td>{transaction.narration}</td>
                                                                     <td>{transaction.debitOrCredit == 'debit' ? transaction.transAmount : '-'}</td>
                                                                     <td>{transaction.debitOrCredit == 'credit' ? transaction.transAmount : '-'}</td>
-                                                                    <td>{transaction.accountBalance}</td>
+                                                                    <td>{searchedCustomer.accountNumber === 1101010000 ? `-${transaction.accountBalance}` : transaction.accountBalance}</td>
                                                                 </tr>
                                                             ))}
                                                         </>

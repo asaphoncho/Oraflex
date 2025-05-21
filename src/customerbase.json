@@ -763,7 +763,8 @@
       "phoneNumber": "+2340000000000",
       "image": "https://example.com/images/customer1.jpg",
       "signature": "https://example.com/signatures/sign1.png",
-      "transactions": []
+      "transactions": [],
+      "balanceDenominations": {"1000": {"units": 0, "value": 0}, "500": {"units": 0, "value": 0}, "200":{"units": 0, "value": 0}, "100":{"units": 0, "value": 0}, "50":{"units": 0, "value": 0}, "20":{"units": 0, "value": 0}, "10":{"units": 0, "value": 0}, "5":{"units": 0, "value": 0}}
 
     }
   ]
