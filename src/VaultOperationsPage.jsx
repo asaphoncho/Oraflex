@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './App.css'
 
-function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack, handleDenomChange, denominationAmount, narrativeRef, amountRef, handleBuyCBN, handleSellCBN}){
+function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack, handleDenomChange, denominationAmount, narrativeRef, amountRef, handleBuyCBN, handleSellCBN, clearInput}){
     const [vaultOperationSelect, setVaultOperationSelect] = useState()
     const [isInputValid, setIsInputValid] = useState(false)
     const [errorMessage, setErrorMessage] = useState('Enter amount')
@@ -9,7 +9,10 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
     const now = new Date()
     const transactionDate = {newDate:`${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getFullYear())}`}
     const totalValue = document.getElementById('total-value')
-    
+    function handleReturn(){
+        setVaultOperationSelect()
+        clearInput()
+    }
     function sellCash(){
         if(!errorMessage && Number(totalValue.textContent) === Number(amountRef.current.value)){
             handleSellCBN()
@@ -98,7 +101,7 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
             {vaultOperationSelect === "buyCashCBN" &&(
                 <>
                 <div className="withdrawal-header">
-                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setVaultOperationSelect()}}><i class="fa-solid fa-arrow-left"></i></button>
+                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={handleReturn}><i class="fa-solid fa-arrow-left"></i></button>
                     <span>Buy Cash From CBN</span>
                 </div>
                 <div className='withdrawal-details'>
@@ -178,7 +181,7 @@ function VaultOperationsPage({openVaultFunction, closeVaultFunction, handleBack,
             {vaultOperationSelect === "sellCashCBN" &&(
                 <>
                 <div className="withdrawal-header">
-                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={()=>{setVaultOperationSelect()}}><i class="fa-solid fa-arrow-left"></i></button>
+                    <button style={{color:'#D8494B', fontSize:'2.5rem', border:'none', position:'absolute', left:'4.25rem', backgroundColor:'#d8494b00', cursor:'pointer'}} onClick={handleReturn}><i class="fa-solid fa-arrow-left"></i></button>
                     <span>Sell Cash To CBN</span>
                 </div>
                 <div className='withdrawal-details'>

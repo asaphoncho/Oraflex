@@ -839,7 +839,7 @@ export default function Flexcubetest(){
                                                 <BranchOperationsPage handleBack={handleBack} openBatchFunction={()=>{setIsBatchOpen(true)}} closeBatchFunction={()=>{setIsBatchOpen(false)}}/>
                                             )}
                                             {transactionSelect === "vaultOperations" &&(
-                                                <VaultOperationsPage handleBack={handleBack} handleDenomChange={handleDenomChange} denominationAmount={denominationAmount} narrativeRef={narrative} amountRef={transferAmount} handleBuyCBN={buyCashCBN} handleSellCBN={sellCashCBN}/>
+                                                <VaultOperationsPage handleBack={handleBack} handleDenomChange={handleDenomChange} denominationAmount={denominationAmount} narrativeRef={narrative} amountRef={transferAmount} handleBuyCBN={buyCashCBN} handleSellCBN={sellCashCBN} clearInput={()=>setDenominationAmount({1000: {units: 0, value: Number(0)}, 500: {units: 0, value: 0}, 200:{units: 0, value: 0}, 100:{units: 0, value: 0}, 50:{units: 0, value: 0}, 20:{units: 0, value: 0}, 10:{units: 0, value: 0}, 5:{units: 0, value: 0}})}/>
                                             )}
                                         </>
                                     )}
